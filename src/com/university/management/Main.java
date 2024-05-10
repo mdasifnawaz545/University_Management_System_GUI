@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) {
         DBConnection connection=new DBConnection();
         MainFrame mainFrame=new MainFrame();
+        Login login = new Login(connection.connect);
 
     }
 }
