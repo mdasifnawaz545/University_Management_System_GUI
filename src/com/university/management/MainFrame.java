@@ -103,6 +103,9 @@ class MyFrame extends JFrame implements ActionListener {
         calculator.addActionListener(this);
         notepad.addActionListener(this);
         webBrowser.addActionListener(this);
+        aboutUs.addActionListener((e)->{
+            About about1=new About();
+        });
 
 
 

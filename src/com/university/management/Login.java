@@ -10,10 +10,10 @@ import java.sql.SQLException;
 
 public class Login extends JFrame {
     Connection connection;
-    String query="SELECT * FROM login_details WHERE username=? AND password=?";
+    String query = "SELECT * FROM login_details WHERE username=? AND password=?";
     public String name;
-    public boolean validation=false;
-    JLabel username, password,warning,loading;
+    public boolean validation = false;
+    JLabel username, password, warning, loading;
     JTextField usernameField;
     JPasswordField passwordField;
     JButton login, reset;
@@ -36,14 +36,14 @@ public class Login extends JFrame {
         reset.setBounds(200, 170, 100, 30);
         login.setBackground(new Color(144, 238, 144));
         reset.setBackground(new Color(135, 206, 250));
-        warning=new JLabel();
-        warning.setBounds(80,220,300,20);
+        warning = new JLabel();
+        warning.setBounds(80, 220, 300, 20);
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/login.png"));
         Image image = imageIcon.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
         ImageIcon imageIcon1 = new ImageIcon(image);
         JLabel loginImage = new JLabel(imageIcon1);
-        loading=new JLabel();
-        loading.setBounds(100,220,300,20);
+        loading = new JLabel();
+        loading.setBounds(100, 220, 300, 20);
         loginImage.setBounds(400, 25, 200, 200);
         add(username);
         add(usernameField);
@@ -53,7 +53,7 @@ public class Login extends JFrame {
         add(reset);
         add(loginImage);
 
-        reset.addActionListener((ActionEvent e)->{
+        reset.addActionListener((ActionEvent e) -> {
             usernameField.setText("");
             passwordField.setText("");
         });
@@ -69,24 +69,25 @@ public class Login extends JFrame {
 
 
     }
-    public void validateUser(){
-        try{
-            PreparedStatement preparedStatement=connection.prepareStatement(query);
-            preparedStatement.setString(1,usernameField.getText());
-            preparedStatement.setString(2,passwordField.getText());
-            ResultSet resultSet=preparedStatement.executeQuery();
-            while(resultSet.next()){
-                name=resultSet.getString("name");
+
+    public void validateUser() {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, usernameField.getText());
+            preparedStatement.setString(2, passwordField.getText());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                name = resultSet.getString("name");
             }
-            if(name==null){
+            if (name == null) {
                 warning.setText("Username or Password is Incorrect");
-            }else {
+            } else {
                 loading.setText("Validating...Please Wait!");
                 warning.setText("");
-                validation=true;
+                validation = true;
             }
 
-        }catch(SQLException sqle){
+        } catch (SQLException sqle) {
             System.out.println(sqle);
         }
 
