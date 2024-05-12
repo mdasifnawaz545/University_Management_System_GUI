@@ -4,35 +4,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 
-class NewStudent extends JFrame{
+class NewFaculty extends JFrame{
     Connection connection;
-    JLabel title,name,roll,fatherName,address,dob,phone,email,classX,classXII,aadhaar,mentorID,mentorName;
-    JTextField nameField,rollField,fatherNameField,addressField,dobField,phoneField,emailField,classXField,classXIIField,aadhaarField;
-    JComboBox mentorIDField,mentorNameField;
+    JLabel title,name,id,fatherName,address,dob,phone,email,graduation,postGraduation,aadhaar,studentID,studentName;
+    JTextField nameField,rollField,fatherNameField,addressField,dobField,phoneField,emailField,classXField,classXIIField,aadhaarField,mentorIDField, mentorNameField;
+    JComboBox course,branch;
     JButton submit,reset;
-    public NewStudent(Connection connection){
+    public NewFaculty(Connection connection){
         this.connection=connection;
         setTitle("Student");
         setLayout(null);
-        title=new JLabel("Add New Student Information");
+        title=new JLabel("Add New Faculty Information");
         title.setFont(new Font("Roboto",10,20));
         title.setBounds(250,10,400,20);
         name=new JLabel("Name");
-        roll=new JLabel("Roll No");
+        id=new JLabel("Faculty ID");
         fatherName=new JLabel("Father's Name");
         address=new JLabel("Address");
         dob=new JLabel("Date of Birth");
         phone=new JLabel("Phone");
         email=new JLabel("Email ID");
-        classX=new JLabel("ClassX (%)");
-        classXII=new JLabel("ClassXII (%)");
+        graduation=new JLabel("Graduation (%)");
+        postGraduation=new JLabel("Post Graduation (%)");
         aadhaar=new JLabel("Aadhaar No");
-        mentorID=new JLabel("Course");
-        mentorName=new JLabel("Branch");
-
-        String courses[]={"B.Tech","BCA","B.Arch","B.Pharm","B.Sc","B.A","B.Com"};
-        String branch[]={"CSE","IT","CSSE","SCSE","ECE","Mechanical","Civil"};
-
+        studentID=new JLabel("Specialisation");
+        studentName=new JLabel("Department");
 
         nameField=new JTextField(15);
         rollField=new JTextField(15);
@@ -43,24 +39,24 @@ class NewStudent extends JFrame{
         classXField=new JTextField(15);
         classXIIField=new JTextField(15);
         aadhaarField=new JTextField(15);
-        mentorIDField=new JComboBox(courses);
-        mentorNameField=new JComboBox(branch);
+        mentorIDField=new JTextField(15);
+        mentorNameField=new JTextField(15);
         emailField=new JTextField(15);
 
 
 
         name.setBounds(30,60,100,10);
-        roll.setBounds(30,100,100,10);
+        id.setBounds(30,100,100,10);
         fatherName.setBounds(30,140,100,10);
         address.setBounds(30,180,100,10);
         dob.setBounds(30,220,100,10);
         phone.setBounds(30,260,100,10);
         email.setBounds(30,300,100,10);
-        classX.setBounds(30,340,100,15);
-        classXII.setBounds(30,380,100,15);
+        graduation.setBounds(30,340,100,15);
+        postGraduation.setBounds(30,380,100,15);
         aadhaar.setBounds(30,420,100,10);
-        mentorID.setBounds(30,460,100,10);
-        mentorName.setBounds(30,500,100,10);
+        studentID.setBounds(30,460,100,10);
+        studentName.setBounds(30,500,100,10);
 
         nameField.setBounds(200,55,200,25);
         rollField.setBounds(200,95,200,25);
@@ -71,11 +67,11 @@ class NewStudent extends JFrame{
         emailField.setBounds(200,295,200,25);
         classXField.setBounds(200,335,200,25);
         classXIIField.setBounds(200,375,200,25);
-        aadhaarField.setBounds(200,415,200,25);
-        mentorIDField.setBounds(200,455,200,25);
-        mentorNameField.setBounds(200,495,200,25);
+        mentorIDField.setBounds(200,415,200,25);
+        mentorNameField.setBounds(200,455,200,25);
+        aadhaarField.setBounds(200,495,200,25);
 
-        ImageIcon imageIcon=new ImageIcon(getClass().getClassLoader().getResource("Images/image-from-rawpixel-id-13020188-png.png"));
+        ImageIcon imageIcon=new ImageIcon(getClass().getClassLoader().getResource("Images/image-from-rawpixel-id-10110911-png.png"));
         Image image=imageIcon.getImage().getScaledInstance(300,425,Image.SCALE_DEFAULT);
         ImageIcon imageIcon1=new ImageIcon(image);
         JLabel images=new JLabel(imageIcon1);
@@ -91,22 +87,21 @@ class NewStudent extends JFrame{
         reset.setBounds(400,570,150,25);
 
 
-add(title);
+        add(title);
         add(submit);
         add(reset);
         add(name);
-        add(roll);
-        add(roll);
+        add(id);
         add(fatherName);
         add(address);
         add(dob);
         add(phone);
         add(email);
-        add(classX);
-        add(classXII);
+        add(graduation);
+        add(phone);
         add(aadhaar);
-        add(mentorID);
-        add(mentorName);
+        add(studentName);
+        add(studentID);
 
 
         add(nameField);

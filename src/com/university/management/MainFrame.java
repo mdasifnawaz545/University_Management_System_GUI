@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 class MyFrame extends JFrame implements ActionListener {
+    DBConnection connection=new DBConnection();
     public MyFrame() {
 
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/KIIT_Campus.jpg"));
@@ -106,8 +108,8 @@ class MyFrame extends JFrame implements ActionListener {
         aboutUs.addActionListener((e)->{
             About about1=new About();
         });
-
-
+        newStudent.addActionListener((e -> new NewStudent(connection.connect)));
+newFaculty.addActionListener((e -> new NewFaculty(connection.connect)));
 
         setJMenuBar(menuBar);
         setTitle("Welcome to KIIT University");
