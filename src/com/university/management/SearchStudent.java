@@ -32,7 +32,7 @@ public class SearchStudent extends JFrame {
         back.setBounds(500,70,90,25);
 
         back.addActionListener((e->setVisible(false)));
-        search.addActionListener((e -> new StudentInformation(StudentRollList.getSelectedItem())));
+        search.addActionListener((e -> new StudentInformation(Integer.parseInt((String)StudentRollList.getSelectedItem()))));
 
 
         add(searchbyroll);

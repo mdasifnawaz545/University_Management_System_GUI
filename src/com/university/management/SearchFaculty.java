@@ -32,7 +32,7 @@ public class SearchFaculty extends JFrame {
         back.setBounds(500,70,90,25);
 
         back.addActionListener((e->setVisible(false)));
-        search.addActionListener((e -> new FacultyInformation(int facultyID)));
+        search.addActionListener((e -> new FacultyInformation(Integer.parseInt((String) FacultyIdList.getSelectedItem()))));
 
         add(searchbyId);
         add(FacultyIdList);

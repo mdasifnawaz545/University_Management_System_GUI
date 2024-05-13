@@ -115,6 +115,10 @@ class MyFrame extends JFrame implements ActionListener {
         newFaculty.addActionListener((e -> new NewFaculty(connection.connect)));
         faculty.addActionListener((e)->{new SearchFaculty(connection.connect);});
         student.addActionListener((e)->{new SearchStudent(connection.connect);});
+        facultyInfo.addActionListener((e->new UpdateFacultyPOP("Update Faculty")));
+        studentInfo.addActionListener((e->new UpdateStudentPOP("Update Student")));
+        facultyAttendance.addActionListener((e -> new FacultyAttendance()));
+        studentAttendance.addActionListener((e -> new StudentAttendance()));
 
         setJMenuBar(menuBar);
         setTitle("Welcome to KIIT University");
