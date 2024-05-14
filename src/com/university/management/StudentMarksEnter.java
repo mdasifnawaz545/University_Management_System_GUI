@@ -3,13 +3,13 @@ package com.university.management;
 import javax.swing.*;
 import java.awt.*;
 
-class Studentmarks extends JFrame {
+class StudentMarksEnter extends JFrame {
     JLabel title, rollNo, semester, subjects, marks;
     JComboBox rollField, semesterField;
     JButton submit, cancel;
     JTextField sub1, sub2, sub3, sub4, sub5, mar1, mar2, mar3, mar4, mar5;
 
-    public Studentmarks() {
+    public StudentMarksEnter() {
         setTitle("Student Marks Upload");
         setLayout(null);
 
@@ -94,8 +94,3 @@ class Studentmarks extends JFrame {
 }
 
 
-public class StudentMarksEnter {
-    public static void main(String args[]) {
-        Studentmarks studentmarks = new Studentmarks();
-    }
-}

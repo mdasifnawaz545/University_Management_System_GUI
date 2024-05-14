@@ -1,6 +1,7 @@
 package com.university.management;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class UpdateStudentPOP extends JFrame{
     JComboBox studentList;
@@ -18,6 +19,7 @@ public class UpdateStudentPOP extends JFrame{
         studentlist.setBounds(50,20,200,20);
         studentList.setBounds(250,20,200,25);
         search.setBounds(470,20,100,25);
+        search.setBackground(new Color(135, 206, 250));
 
         search.addActionListener((e -> new UpdateStudent(Integer.parseInt((String) studentList.getSelectedItem()))));
 
