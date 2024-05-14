@@ -12,13 +12,13 @@ class StudentMarksEnter extends JFrame {
     public StudentMarksEnter() {
         setTitle("Student Marks Upload");
         setLayout(null);
-
+String sem[]={"1st","2nd","3rd","4th","5th","6th","7th","8th"};
         title = new JLabel("Upload Student Marks");
         title.setFont(new Font("Roboto", 15, 25));
         rollNo = new JLabel("Select Student Roll No");
         rollField = new JComboBox();
         semester = new JLabel("Select Semester");
-        semesterField = new JComboBox();
+        semesterField = new JComboBox(sem);
         subjects = new JLabel("Enter Subject Name");
         marks = new JLabel("Enter Obtained Marks");
         submit = new JButton("Submit");

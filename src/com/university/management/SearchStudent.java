@@ -19,7 +19,7 @@ public class SearchStudent extends JFrame {
         search=new JButton("Search");
         add=new JButton("Add Student");
         update=new JButton("Update");
-        print=new JButton("Print");
+        print=new JButton("Attendance");
         back=new JButton("Back");
         StudentRollList=new JComboBox();
 
@@ -28,11 +28,20 @@ public class SearchStudent extends JFrame {
         search.setBounds(50,70,90,25);
         add.setBounds(160,70,110,25);
         update.setBounds(280,70,90,25);
-        print.setBounds(390,70,90,25);
-        back.setBounds(500,70,90,25);
+        print.setBounds(380,70,110,25);
+        back.setBounds(510,70,90,25);
 
         back.addActionListener((e->setVisible(false)));
         search.addActionListener((e -> new StudentInformation(Integer.parseInt((String)StudentRollList.getSelectedItem()))));
+        add.addActionListener(e -> new NewStudent(connection));
+        update.addActionListener((e -> new UpdateStudent(Integer.parseInt((String)StudentRollList.getSelectedItem()))));
+        print.addActionListener(e -> new StudentAttendance());
+
+        search.setBackground(new Color(144, 238, 144));
+        add.setBackground(new Color(144, 238, 144));
+        update.setBackground(new Color(144, 238, 144));
+        print.setBackground(new Color(144, 238, 144));
+        back.setBackground(new Color(135, 206, 250));
 
 
         add(searchbyroll);

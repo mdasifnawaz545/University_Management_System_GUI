@@ -21,7 +21,7 @@ public class GradeReportPOP extends JFrame {
         search.setBounds(470, 20, 100, 25);
         search.setBackground(new Color(135, 206, 250));
 
-        search.addActionListener((e -> new UpdateStudent(Integer.parseInt((String) studentList.getSelectedItem()))));
+        search.addActionListener(e -> {new GradeReport(Integer.parseInt((String) studentList.getSelectedItem()));});
 
         add(studentList);
         add(studentlist);

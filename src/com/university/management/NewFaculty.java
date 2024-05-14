@@ -147,7 +147,8 @@ class NewFaculty extends JFrame {
 
 
         });
-
+submit.addActionListener((e ->JOptionPane.showMessageDialog(null,"Added Successfully")
+));
 add(imageUpload);
 add(imageUploadButton);
         add(title);

@@ -3,7 +3,7 @@ package com.university.management;
 import javax.swing.*;
 import java.awt.*;
 
-class GD extends JFrame {
+public class GradeReport extends JFrame {
     JLabel title, name, rollNo, semester, cgpa;
     JButton print;
     String sub1, sub2, sub3, sub4, sub5;
@@ -11,13 +11,13 @@ class GD extends JFrame {
 
     JLabel row1, row2, row3, row4, row5;
 
-    public GD() {
+    public GradeReport(int roll) {
         setTitle("Student Grade Report");
         setLayout(null);
 
         title = new JLabel("Semester Grade Report");
         title.setFont(new Font("Roboto", 10, 15));
-        print = new JButton("Print");
+        print = new JButton("Back");
 
 
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/kisspng-kiit-school-of-rural-management-kiit-technology-bu-logo-5ac78cf4425602.4098442015230271882717.png"));
@@ -55,7 +55,9 @@ class GD extends JFrame {
         row4.setBounds(50, 390, 400, 15);
         row5.setBounds(50, 420, 400, 15);
         print.setBounds(130, 460, 150, 25);
-
+print.addActionListener(e -> {
+setVisible(false);
+});
         add(img);
         add(title);
         add(name);
@@ -77,9 +79,3 @@ class GD extends JFrame {
     }
 }
 
-public class GradeReport {
-    public static void main(String args[]) {
-        GD gd = new GD();
-
-    }
-}

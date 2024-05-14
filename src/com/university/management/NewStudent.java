@@ -112,6 +112,7 @@ class NewStudent extends JFrame {
         cancel.addActionListener((e) -> {
             setVisible(false);
         });
+
         imageUplaodButton.addActionListener((e)->{
             JFileChooser fileChooser=new JFileChooser();
             fileChooser.showOpenDialog(this);
@@ -148,6 +149,8 @@ class NewStudent extends JFrame {
             databaseController = new DatabaseController();
             databaseController.InsertToDatabaseStudent(studentDBInstance);
         });
+        submit.addActionListener((e ->JOptionPane.showMessageDialog(null,"Added Successfully")
+        ));
         add(title);
         add(submit);
         add(cancel);

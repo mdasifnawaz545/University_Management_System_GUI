@@ -35,6 +35,8 @@ public class LeaveDetails extends JFrame{
 
             search.setBounds(100, 230, 150, 20);
             cancel.setBounds(100, 270, 150, 20);
+            search.setBackground(new Color(144, 238, 144));
+            cancel.setBackground(new Color(135, 206, 250));
 
             add(title);
             add(rollNo);

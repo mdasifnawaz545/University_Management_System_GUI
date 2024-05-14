@@ -38,9 +38,13 @@ public class ApplyLeave extends JFrame {
         date.setBounds(30,130,150,15);
         dateChooser.setBounds(170,130,150,20);
         duration.setBounds(30,180,150,15);
-        durationList.setBounds(180,170,150,20);
+        durationList.setBounds(170,170,150,20);
         submit.setBounds(100,230,150,20);
         cancel.setBounds(100,270,150,20);
+
+
+        submit.setBackground(new Color(144, 238, 144));
+        cancel.setBackground(new Color(135, 206, 250));
 
         add(title);
         add(rollNo);

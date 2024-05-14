@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 
 class MyFrame extends JFrame implements ActionListener {
     DBConnection connection = new DBConnection();
@@ -132,6 +131,16 @@ class MyFrame extends JFrame implements ActionListener {
         leaveDetails.addActionListener((e -> {
             new LeaveDetails();
         })); //DB Conenection is required.
+
+        gradeReport.addActionListener(e -> {new GradeReportPOP();});
+        uploadMarks.addActionListener(e -> {new StudentMarksEnter();});
+
+        feeStructure.addActionListener(e -> {new FeeStructure();});
+        feeDetails.addActionListener(e -> {new FeePayment();});
+
+
+
+
         setJMenuBar(menuBar);
         setTitle("Welcome to KIIT University");
         setSize(1275, 700);
@@ -161,6 +170,7 @@ class MyFrame extends JFrame implements ActionListener {
                 System.out.println(e);
             }
         }
+
     }
 }
 

@@ -111,6 +111,7 @@ class UpdateStudent extends JFrame {
         cancel.addActionListener((e) -> {
             setVisible(false);
         });
+        submit.addActionListener((e ->JOptionPane.showMessageDialog(null,"Update Successfully")));
         imageUplaodButton.addActionListener((e)->{
             JFileChooser fileChooser=new JFileChooser();
             fileChooser.showOpenDialog(this);
