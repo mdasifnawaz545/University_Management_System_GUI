@@ -57,8 +57,11 @@ class MyFrame extends JFrame implements ActionListener {
         JMenu examination = new JMenu("Examination");
         examination.setForeground(new Color(0, 204, 0));
         JMenuItem gradeReport = new JMenuItem("Grade Report");
+        JMenuItem uploadMarks=new JMenuItem("Upload Marks");
         gradeReport.setForeground(new Color(0, 0, 255));
+        uploadMarks.setForeground(new Color(0, 0, 255));
         examination.add(gradeReport);
+        examination.add(uploadMarks);
         menuBar.add(examination);
         JMenu feeDetails = new JMenu("Fee Details");
         JMenuItem feeStructure = new JMenuItem("Fee Structure");
@@ -113,13 +116,22 @@ class MyFrame extends JFrame implements ActionListener {
         });
         newStudent.addActionListener((e -> new NewStudent(connection.connect)));
         newFaculty.addActionListener((e -> new NewFaculty(connection.connect)));
-        faculty.addActionListener((e)->{new SearchFaculty(connection.connect);});
-        student.addActionListener((e)->{new SearchStudent(connection.connect);});
-        facultyInfo.addActionListener((e->new UpdateFacultyPOP("Update Faculty")));
-        studentInfo.addActionListener((e->new UpdateStudentPOP("Update Student")));
+        faculty.addActionListener((e) -> {
+            new SearchFaculty(connection.connect);
+        });
+        student.addActionListener((e) -> {
+            new SearchStudent(connection.connect);
+        });
+        facultyInfo.addActionListener((e -> new UpdateFacultyPOP("Update Faculty")));
+        studentInfo.addActionListener((e -> new UpdateStudentPOP("Update Student")));
         facultyAttendance.addActionListener((e -> new FacultyAttendance()));
         studentAttendance.addActionListener((e -> new StudentAttendance()));
-
+        leaveApply.addActionListener((e -> {
+            new ApplyLeave();
+        })); //DB Conenection is required.
+        leaveDetails.addActionListener((e -> {
+            new LeaveDetails();
+        })); //DB Conenection is required.
         setJMenuBar(menuBar);
         setTitle("Welcome to KIIT University");
         setSize(1275, 700);
