@@ -21,6 +21,7 @@ class NewFaculty extends JFrame {
     JButton imageUploadButton;
     JDateChooser dobField;
     JButton submit, cancel;
+    FacultyDBInstance facultyDBInstance;
 
     public NewFaculty(Connection connection) {
         String depart[] = {"Computer Science", "IT", "Mechanical", "Civil", "Architecture", "Applied Science",};
@@ -109,6 +110,7 @@ class NewFaculty extends JFrame {
             setVisible(false);
         });
 
+
         imageUploadButton.addActionListener((e)->{
             JFileChooser fileChooser=new JFileChooser();
             fileChooser.showOpenDialog(this);
@@ -116,8 +118,8 @@ class NewFaculty extends JFrame {
             imageFile=fileChooser.getSelectedFile();
             try {
                 FileInputStream fileInputStream = new FileInputStream(imageFile);
-                byte imageData[]=new byte[fileInputStream.available()];
-                fileInputStream.read(imageData);
+                facultyDBInstance.imageData=new byte[fileInputStream.available()];
+                fileInputStream.read(facultyDBInstance.imageData);
 
             }catch(FileNotFoundException ie){
                 System.out.println(ie);
@@ -128,7 +130,8 @@ class NewFaculty extends JFrame {
         });
 
         submit.addActionListener((ActionEvent e) -> {
-            FacultyDBInstance facultyDBInstance = new FacultyDBInstance();
+             facultyDBInstance = new FacultyDBInstance();
+            facultyDBInstance.facultyID=Integer.parseInt(idField.getText());
             facultyDBInstance.name = nameField.getText();
             facultyDBInstance.fathersName = fatherNameField.getText();
             facultyDBInstance.address = addressField.getText();
@@ -137,10 +140,9 @@ class NewFaculty extends JFrame {
             facultyDBInstance.graduation = Integer.parseInt(graduationField.getText());
             facultyDBInstance.postGraduation = Integer.parseInt(postGraduationField.getText());
             facultyDBInstance.aadhaar = Integer.parseInt(aadhaarField.getText());
-            facultyDBInstance.department = departmentField.getActionCommand();
-            facultyDBInstance.specialization = specializationField.getActionCommand();
+            facultyDBInstance.department = (String) departmentField.getSelectedItem();
+            facultyDBInstance.specialization =(String) specializationField.getSelectedItem();
             facultyDBInstance.dob = dobField.getDateFormatString();
-            facultyDBInstance.roll = Integer.parseInt(idField.getName());
             idNo.getAndIncrement();
             databaseController = new DatabaseController();
             databaseController.InsertToDatabaseFaculty(facultyDBInstance);

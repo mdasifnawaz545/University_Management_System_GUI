@@ -136,7 +136,7 @@ class MyFrame extends JFrame implements ActionListener {
         uploadMarks.addActionListener(e -> {new StudentMarksEnter();});
 
         feeStructure.addActionListener(e -> {new FeeStructure();});
-        feeDetails.addActionListener(e -> {new FeePayment();});
+        feePayment.addActionListener(e -> {new FeePayment();});
 
 
 
