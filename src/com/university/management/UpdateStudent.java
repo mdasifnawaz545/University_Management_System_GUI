@@ -133,7 +133,7 @@ class UpdateStudent extends JFrame {
         submit.addActionListener((ActionEvent e) -> {
             studentDBInstance = new StudentDBInstance();
             studentDBInstance.address = addressField.getText();
-            studentDBInstance.phone = Integer.parseInt(phoneField.getText());
+            studentDBInstance.phone = (phoneField.getText());
             studentDBInstance.email = emailField.getText();
             databaseController = new DatabaseController();
             databaseController.InsertToDatabaseStudent(studentDBInstance);

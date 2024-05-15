@@ -1,6 +1,7 @@
 package com.university.management;
 
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JCalendar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,23 +11,37 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class NewFaculty extends JFrame {
     Connection connection;
     DatabaseController databaseController;
-    JLabel title, imageUpload,name, id, idField, fatherName, address, dob, phone, email, graduation, postGraduation, aadhaar, department, specialization;
-    JTextField nameField, fatherNameField, addressField, phoneField, emailField, graduationField, postGraduationField, aadhaarField;
+    JLabel title, imageUpload, name, id, idField, fatherName, address, dob, phone, email, graduation, postGraduation, aadhaar, department, specialization;
+    JTextField nameField,imageUploadField, fatherNameField, addressField, phoneField, emailField, graduationField, postGraduationField, aadhaarField;
     JComboBox departmentField, specializationField;
     JButton imageUploadButton;
     JDateChooser dobField;
     JButton submit, cancel;
-    FacultyDBInstance facultyDBInstance;
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
+    FacultyDBInstance facultyDBInstance = new FacultyDBInstance();
+    ArrayList<Integer> arrayList=new ArrayList<>(List.of(0));
+
+    public void increment(){
+        arrayList.add((arrayList.get(arrayList.size() - 1)));
+    }
 
     public NewFaculty(Connection connection) {
         String depart[] = {"Computer Science", "IT", "Mechanical", "Civil", "Architecture", "Applied Science",};
         String spec[] = {"AI/ML", "Data Science", "SAP ABAP", "Data Structures", "Electronics", "Computer Application"};
-
+        increment();
+        int rollIncrement = arrayList.get(arrayList.size() - 1);
+        Random random=new Random();
+        long randomValue=Math.abs((random.nextLong() % 9000L) + 10000L);
         this.connection = connection;
         setTitle("Student");
         setLayout(null);
@@ -46,10 +61,9 @@ class NewFaculty extends JFrame {
         specialization = new JLabel("Specialisation");
         department = new JLabel("Department");
 
-        AtomicInteger idNo = new AtomicInteger(1);
-
         nameField = new JTextField(15);
-        idField = new JLabel("190345" + (idNo));
+        idField = new JLabel("19"+(randomValue));
+        imageUploadField=new JTextField(15);
         addressField = new JTextField(15);
         fatherNameField = new JTextField(15);
         dobField = new JDateChooser();
@@ -60,7 +74,7 @@ class NewFaculty extends JFrame {
         specializationField = new JComboBox(spec);
         departmentField = new JComboBox(depart);
         emailField = new JTextField(15);
-        imageUploadButton=new JButton("Choose File");
+        imageUploadButton = new JButton("Choose File");
 
 
         name.setBounds(30, 60, 100, 10);
@@ -75,8 +89,8 @@ class NewFaculty extends JFrame {
         aadhaar.setBounds(30, 420, 100, 10);
         specialization.setBounds(30, 460, 100, 15);
         department.setBounds(30, 500, 100, 15);
-        imageUpload =new JLabel("Image Upload");
-        imageUpload.setBounds(30,540,100,15);
+        imageUpload = new JLabel("Image Upload");
+        imageUpload.setBounds(30, 540, 100, 15);
 
         nameField.setBounds(200, 55, 200, 25);
         idField.setBounds(200, 95, 200, 25);
@@ -90,7 +104,8 @@ class NewFaculty extends JFrame {
         aadhaarField.setBounds(200, 415, 200, 25);
         specializationField.setBounds(200, 455, 200, 25);
         departmentField.setBounds(200, 495, 200, 25);
-        imageUploadButton.setBounds(200,535,200,25);
+        imageUploadButton.setBounds(200, 535, 200, 25);
+        imageUploadField.setBounds(450, 535, 200, 25);
 
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/image-from-rawpixel-id-10110911-png.png"));
         Image image = imageIcon.getImage().getScaledInstance(300, 425, Image.SCALE_DEFAULT);
@@ -111,48 +126,62 @@ class NewFaculty extends JFrame {
         });
 
 
-        imageUploadButton.addActionListener((e)->{
-            JFileChooser fileChooser=new JFileChooser();
+        imageUploadButton.addActionListener((e) -> {
+            JFileChooser fileChooser = new JFileChooser();
             fileChooser.showOpenDialog(this);
             File imageFile;
-            imageFile=fileChooser.getSelectedFile();
-            try {
-                FileInputStream fileInputStream = new FileInputStream(imageFile);
-                facultyDBInstance.imageData=new byte[fileInputStream.available()];
-                fileInputStream.read(facultyDBInstance.imageData);
+            for (int i = 0; ; i++) {
+                if (fileChooser.getSelectedFile() != null) {
+                    imageFile = fileChooser.getSelectedFile();
+                    imageUploadField.setText(imageFile.getName());
+                    try {
+                        FileInputStream fileInputStream = new FileInputStream(imageFile.getAbsolutePath());
+                        System.out.println(fileInputStream);
+                        facultyDBInstance.imageData = new byte[fileInputStream.available()];
+                        fileInputStream.read(facultyDBInstance.imageData);
+                        System.out.println(facultyDBInstance.imageData);
 
-            }catch(FileNotFoundException ie){
-                System.out.println(ie);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                    } catch (FileNotFoundException ie) {
+                        System.out.println(ie);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    break;
+
+                }
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException ie) {
+                    System.out.println(ie);
+                }
             }
-
         });
 
+        int finalRollIncrement = rollIncrement;
         submit.addActionListener((ActionEvent e) -> {
-             facultyDBInstance = new FacultyDBInstance();
-            facultyDBInstance.facultyID=Integer.parseInt(idField.getText());
+            facultyDBInstance.facultyID = Integer.parseInt(idField.getText());
             facultyDBInstance.name = nameField.getText();
             facultyDBInstance.fathersName = fatherNameField.getText();
             facultyDBInstance.address = addressField.getText();
-            facultyDBInstance.phone = Integer.parseInt(phoneField.getText());
+            facultyDBInstance.phone = phoneField.getText();
             facultyDBInstance.email = emailField.getText();
             facultyDBInstance.graduation = Integer.parseInt(graduationField.getText());
             facultyDBInstance.postGraduation = Integer.parseInt(postGraduationField.getText());
-            facultyDBInstance.aadhaar = Integer.parseInt(aadhaarField.getText());
+            facultyDBInstance.aadhaar = aadhaarField.getText();
             facultyDBInstance.department = (String) departmentField.getSelectedItem();
-            facultyDBInstance.specialization =(String) specializationField.getSelectedItem();
-            facultyDBInstance.dob = dobField.getDateFormatString();
-            idNo.getAndIncrement();
+            facultyDBInstance.specialization = (String) specializationField.getSelectedItem();
+            facultyDBInstance.dob = ((JTextField) dobField.getDateEditor().getUiComponent()).getText();
+
             databaseController = new DatabaseController();
             databaseController.InsertToDatabaseFaculty(facultyDBInstance);
+//            arrayList.add(finalRollIncrement);
 
 
         });
-submit.addActionListener((e ->JOptionPane.showMessageDialog(null,"Added Successfully")
-));
-add(imageUpload);
-add(imageUploadButton);
+        submit.addActionListener((e -> JOptionPane.showMessageDialog(null, "Added Successfully")
+        ));
+        add(imageUpload);
+        add(imageUploadButton);
         add(title);
         add(submit);
         add(cancel);

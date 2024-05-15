@@ -1,7 +1,8 @@
 package com.university.management;
 
 public class StudentDBInstance {
-    String name,fathersName,address,email,course,branch,dob;
+    String phone,name,fathersName,address,email,aadhaar,course,branch,dob;
     byte imageData[];
-    int phone,classX,classXII,aadhaar,roll;
+    int roll,assignedMentorID,attendance;
+    float classX,classXII;
 }

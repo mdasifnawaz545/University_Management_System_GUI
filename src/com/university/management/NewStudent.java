@@ -8,6 +8,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.toedter.calendar.JDateChooser;
@@ -15,9 +19,10 @@ import com.toedter.calendar.JDateChooser;
 class NewStudent extends JFrame {
     Connection connection;
     DatabaseController databaseController;
-    StudentDBInstance studentDBInstance;
-    JLabel assignedMentor,imageUpload,assignedMentorID,title, name, roll, fatherName, rollField, address, dob, phone, email, classX, classXII, aadhaar, mentorID, mentorName;
-    JTextField nameField, imageUplaodField,fatherNameField, addressField, phoneField, emailField, classXField, classXIIField, aadhaarField;
+    StudentDBInstance studentDBInstance = new StudentDBInstance();
+    ;
+    JLabel assignedMentor, imageUpload, assignedMentorID, title, name, roll, fatherName, rollField, address, dob, phone, email, classX, classXII, aadhaar, mentorID, mentorName;
+    JTextField nameField, imageUplaodField, fatherNameField, addressField, phoneField, emailField, classXField, classXIIField, aadhaarField;
     JComboBox courseField, branchField;
     JDateChooser dobField;
     JButton imageUplaodButton;
@@ -42,17 +47,36 @@ class NewStudent extends JFrame {
         aadhaar = new JLabel("Aadhaar No");
         mentorID = new JLabel("Course");
         mentorName = new JLabel("Branch");
-        assignedMentor=new JLabel("Assigned Mentor Id - ");
-        int idNo = 1;
-        assignedMentorID=new JLabel("190345"+(idNo));
-        imageUpload=new JLabel("Upload Image");
+        assignedMentor = new JLabel("Assigned Mentor Id - ");
+
+
+        //        MentorId
+        int mentorIdDB = 0;
+        String QueryId = "SELECT (faculty_id) from faculty LIMIT 1;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(QueryId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                mentorIdDB = resultSet.getInt("faculty_id");
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+        }
+
+
+        assignedMentorID = new JLabel(String.valueOf(mentorIdDB));
+        imageUpload = new JLabel("Upload Image");
 
         String courses[] = {"B.Tech", "BCA", "B.Arch", "B.Pharm", "B.Sc", "B.A", "B.Com"};
         String branch[] = {"CSE", "IT", "CSSE", "SCSE", "ECE", "Mechanical", "Civil"};
 
         AtomicInteger rollNo = new AtomicInteger(1);
+
+        Random random = new Random();
+        long randomValue = Math.abs(random.nextLong() % 9000 + 1000);
+
         nameField = new JTextField(15);
-        rollField = new JLabel("22052736" + (rollNo));
+        rollField = new JLabel("2205" + (randomValue));
         addressField = new JTextField(15);
         fatherNameField = new JTextField(15);
         dobField = new JDateChooser();
@@ -63,7 +87,7 @@ class NewStudent extends JFrame {
         courseField = new JComboBox(courses);
         branchField = new JComboBox(branch);
         emailField = new JTextField(15);
-        imageUplaodButton=new JButton("Choose File");
+        imageUplaodButton = new JButton("Choose File");
 
 
         name.setBounds(30, 60, 100, 10);
@@ -80,7 +104,7 @@ class NewStudent extends JFrame {
         aadhaar.setBounds(30, 420, 100, 10);
         mentorID.setBounds(30, 460, 100, 10);
         mentorName.setBounds(30, 500, 100, 10);
-        imageUpload.setBounds(30,540,100,15);
+        imageUpload.setBounds(30, 540, 100, 15);
 
         nameField.setBounds(200, 55, 200, 25);
         rollField.setBounds(200, 95, 200, 25);
@@ -94,7 +118,7 @@ class NewStudent extends JFrame {
         aadhaarField.setBounds(200, 415, 200, 25);
         courseField.setBounds(200, 455, 200, 25);
         branchField.setBounds(200, 495, 200, 25);
-        imageUplaodButton.setBounds(200,535,200,25);
+        imageUplaodButton.setBounds(200, 535, 200, 25);
 
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/image-from-rawpixel-id-13020188-png.png"));
         Image image = imageIcon.getImage().getScaledInstance(300, 425, Image.SCALE_DEFAULT);
@@ -113,43 +137,47 @@ class NewStudent extends JFrame {
             setVisible(false);
         });
 
-        imageUplaodButton.addActionListener((e)->{
-            JFileChooser fileChooser=new JFileChooser();
+        imageUplaodButton.addActionListener((e) -> {
+            JFileChooser fileChooser = new JFileChooser();
             fileChooser.showOpenDialog(this);
             File imageFile;
-            imageFile=fileChooser.getSelectedFile();
-            try {
-                FileInputStream fileInputStream = new FileInputStream(imageFile);
-                byte imageData[]=new byte[fileInputStream.available()];
-                fileInputStream.read(imageData);
-                studentDBInstance.imageData=imageData;
+            for (int i = 0; ; i++) {
+                if (fileChooser.getSelectedFile() != null) {
+                    imageFile = fileChooser.getSelectedFile();
+                    try {
+                        FileInputStream fileInputStream = new FileInputStream(imageFile);
+                        studentDBInstance.imageData = new byte[fileInputStream.available()];
+                        fileInputStream.read(studentDBInstance.imageData);
 
-            }catch(FileNotFoundException ie){
-                System.out.println(ie);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                    } catch (FileNotFoundException ie) {
+                        System.out.println(ie);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    break;
+                }
             }
-            System.out.println(imageFile);
         });
         submit.addActionListener((ActionEvent e) -> {
-            studentDBInstance = new StudentDBInstance();
             studentDBInstance.name = nameField.getText();
             studentDBInstance.fathersName = fatherNameField.getText();
             studentDBInstance.address = addressField.getText();
-            studentDBInstance.phone = Integer.parseInt(phoneField.getText());
+            studentDBInstance.phone = (phoneField.getText());
             studentDBInstance.email = emailField.getText();
-            studentDBInstance.classX = Integer.parseInt(classXField.getText());
-            studentDBInstance.classXII = Integer.parseInt(classXIIField.getText());
-            studentDBInstance.aadhaar = Integer.parseInt(aadhaarField.getText());
-            studentDBInstance.course = courseField.getActionCommand();
-            studentDBInstance.branch = branchField.getActionCommand();
-            studentDBInstance.dob = dobField.getDateFormatString();
-            studentDBInstance.roll = Integer.parseInt(rollField.getName());
-            rollNo.getAndIncrement();
+            studentDBInstance.classX = Float.parseFloat(classXField.getText());
+            studentDBInstance.classXII = Float.parseFloat(classXIIField.getText());
+            studentDBInstance.aadhaar = (aadhaarField.getText());
+            studentDBInstance.course =(String) courseField.getSelectedItem();
+            studentDBInstance.branch = (String) branchField.getSelectedItem();
+            studentDBInstance.dob = ((JTextField)dobField.getDateEditor().getUiComponent()).getText();
+            studentDBInstance.roll = Integer.parseInt(rollField.getText());
+            studentDBInstance.assignedMentorID = Integer.parseInt(assignedMentorID.getText());
+//            rollNo.getAndIncrement();
             databaseController = new DatabaseController();
             databaseController.InsertToDatabaseStudent(studentDBInstance);
         });
-        submit.addActionListener((e ->JOptionPane.showMessageDialog(null,"Added Successfully")
+        submit.addActionListener((e -> JOptionPane.showMessageDialog(null, "Added Successfully")
         ));
         add(title);
         add(submit);
@@ -167,7 +195,7 @@ class NewStudent extends JFrame {
         add(aadhaar);
         add(mentorID);
         add(mentorName);
-add(imageUpload);
+        add(imageUpload);
 
         add(nameField);
         add(rollField);
@@ -181,9 +209,9 @@ add(imageUpload);
         add(classXIIField);
         add(courseField);
         add(branchField);
-add(assignedMentorID);
-add(assignedMentor);
-add(imageUplaodButton);
+        add(assignedMentorID);
+        add(assignedMentor);
+        add(imageUplaodButton);
 
         setSize(750, 650);
         setLocation(250, 55);

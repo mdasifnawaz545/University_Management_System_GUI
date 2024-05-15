@@ -130,7 +130,7 @@ class UpdateFaculty extends JFrame {
         submit.addActionListener((ActionEvent e) -> {
             facultyDBInstance = new FacultyDBInstance();
             facultyDBInstance.address = addressField.getText();
-            facultyDBInstance.phone = Integer.parseInt(phoneField.getText());
+            facultyDBInstance.phone = (phoneField.getText());
             facultyDBInstance.email = emailField.getText();
             databaseController = new DatabaseController();
             databaseController.InsertToDatabaseFaculty(facultyDBInstance);
