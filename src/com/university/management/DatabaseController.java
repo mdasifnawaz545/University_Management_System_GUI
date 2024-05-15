@@ -48,8 +48,8 @@ public class DatabaseController {
             preparedStatement.setString(5, (facultyDBInstance.dob));
             preparedStatement.setString(6, facultyDBInstance.phone);
             preparedStatement.setString(7, facultyDBInstance.email);
-            preparedStatement.setInt(8, facultyDBInstance.graduation);
-            preparedStatement.setInt(9, facultyDBInstance.postGraduation);
+            preparedStatement.setFloat(8, facultyDBInstance.graduation);
+            preparedStatement.setFloat(9, facultyDBInstance.postGraduation);
             preparedStatement.setString(10, facultyDBInstance.aadhaar);
             preparedStatement.setString(11, facultyDBInstance.specialization);
             preparedStatement.setString(12, facultyDBInstance.department);

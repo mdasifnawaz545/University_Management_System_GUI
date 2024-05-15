@@ -2,19 +2,37 @@ package com.university.management;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class SearchFaculty extends JFrame {
     Connection connection;
-    String Query = "SELECT (facultyID) from Faculty;";
+    String allFacultyId="SELECT (faculty_id) FROM faculty;";
     JLabel searchbyId;
     JComboBox FacultyIdList;
     JButton search, add, update, print, back;
+    ArrayList<Integer> arrayList=new ArrayList<>();
 
     public SearchFaculty(Connection connection) {
-
+this.connection=connection;
         setTitle("Search for Faculty");
         setLayout(null);
+
+        try{
+            PreparedStatement preparedStatement=connection.prepareStatement(allFacultyId);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while(resultSet.next()){
+                arrayList.add(resultSet.getInt("faculty_id"));
+            }
+        }catch (SQLException sqlException) {
+            System.out.println(sqlException);
+        }
+
 
         searchbyId = new JLabel("Search Faculty by ID          -       ");
         search = new JButton("Search");
@@ -22,7 +40,12 @@ public class SearchFaculty extends JFrame {
         update = new JButton("Update");
         print = new JButton("Attendance");
         back = new JButton("Back");
-        FacultyIdList = new JComboBox();
+        String array[] = new String[arrayList.size()];
+        int i=0;
+        for(Iterator<Integer> iterator=arrayList.iterator();iterator.hasNext();){
+            array[i++]= String.valueOf(iterator.next());
+        }
+        FacultyIdList = new JComboBox(array);
 
         searchbyId.setBounds(70, 15, 350, 15);
         FacultyIdList.setBounds(270, 10, 200, 25);
@@ -38,7 +61,9 @@ public class SearchFaculty extends JFrame {
         back.setBackground(new Color(135, 206, 250));
         search.setBackground(new Color(135, 206, 250));
         back.addActionListener((e -> setVisible(false)));
-        search.addActionListener((e -> new FacultyInformation(Integer.parseInt((String) FacultyIdList.getSelectedItem()))));
+        search.addActionListener((e -> {
+                new FacultyInformation(Integer.parseInt((String) FacultyIdList.getSelectedItem()),connection);
+        }));
         add.addActionListener(e -> {
             new NewFaculty(connection);
         });

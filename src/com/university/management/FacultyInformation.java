@@ -2,16 +2,96 @@ package com.university.management;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.*;
+import java.util.Random;
 
 
 class FacultyInformation extends JFrame {
     int facultyId;
-    String Query="Select * From Student WHERE ID=?";
-    JLabel title, name, facultyID, fatherName, idField, address, dob, phone, email, graduation, postGraduation, aadhaar, specialization, department,facultyImage,nameField, dobField,specField,deptField,fatherNameField, addressField, phoneField, emailField, gradField, postGradField, aadhaarField;
-    public FacultyInformation(int facultyId){
-        this.facultyId=facultyId;
+    byte imageData[];
+    Blob imgData;
+    JButton downloadImage;
+    Connection connection;
+    String Query = "SELECT * FROM faculty WHERE faculty_id=?";
+    String nameDB,idDB,addressDB,fathersNameDB,dobDB,phoneDB,gradDB,pgDB,aadhaarDB,specDB,depDB,emailDB;
+
+    JLabel title, name, facultyID, fatherName, idField, address, dob, phone, email, graduation, postGraduation, aadhaar, specialization, department, facultyImage, nameField, dobField, specField, deptField, fatherNameField, addressField, phoneField, emailField, gradField, postGradField, aadhaarField, imageField;
+
+    public FacultyInformation(int facultyId, Connection connection) {
+        this.facultyId = facultyId;
+        this.connection = connection;
         setTitle("Student");
         setLayout(null);
+
+        downloadImage=new JButton("Download Image");
+
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+            preparedStatement.setInt(1,this.facultyId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                nameDB=(resultSet.getString("name"));
+                idDB=(String.valueOf(resultSet.getInt("faculty_id")));
+                addressDB=(resultSet.getString("address"));
+                fathersNameDB=(resultSet.getString("fathers_name"));
+                dobDB=(resultSet.getString("dob"));
+                phoneDB=(resultSet.getString("phone"));
+                gradDB=(String.valueOf(resultSet.getFloat("graduation")));
+                pgDB=(String.valueOf(resultSet.getFloat("post_graduation")));
+                aadhaarDB=(resultSet.getString("aadhaar_no"));
+                specDB=(resultSet.getString("specialisation"));
+                depDB=(resultSet.getString("department"));
+                emailDB=(resultSet.getString("email_id"));
+                imgData = resultSet.getBlob("image");
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+        }
+
+        downloadImage.addActionListener((e)->{
+            Random random=new Random();
+            long randomValue=Math.abs((random.nextLong() % 9000 ) + 1000);
+            String folder_Path = "C:\\Users\\KIIT\\IdeaProjects\\demo\\University Management System\\src\\DBImages\\";
+            String fileName = folder_Path + "_Database_Images_" + (randomValue);
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+                fileOutputStream.write(imageData);
+            }catch(IOException ioe){
+                System.out.println(ioe);
+            }
+        });
+
+        Random random=new Random();
+        long randomValue=Math.abs((random.nextLong() % 9000 ) + 1000);
+        String folder_Path = "C:\\Users\\KIIT\\IdeaProjects\\demo\\University Management System\\src\\DBImages\\";
+        String fileName = folder_Path + "_Database_Images_" + (randomValue);
+        try {
+            imageData=imgData.getBytes(1,(int)imgData.length());
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            fileOutputStream.write(imageData);
+        }catch(IOException ioe){
+            System.out.println(ioe);
+        }
+        catch (SQLException sqlException){
+            System.out.println(sqlException);
+        }
+
+
+
+        ImageIcon imageIcon = new ImageIcon(imageData);
+        Image image = imageIcon.getImage().getScaledInstance(275, 325, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon1 = new ImageIcon(image);
+        facultyImage = new JLabel(imageIcon1);
+        facultyImage.setBounds(420, 90, 275, 325);
+        downloadImage.setBounds(450,440,200,25);
+
+
+
+
         title = new JLabel("Faculty Information");
         title.setFont(new Font("Roboto", 10, 20));
         title.setBounds(250, 10, 400, 25);
@@ -41,6 +121,19 @@ class FacultyInformation extends JFrame {
         deptField = new JLabel();
         emailField = new JLabel();
 
+        nameField.setText(nameDB);
+        idField.setText(idDB);
+        addressField.setText(addressDB);
+        fatherNameField.setText(fathersNameDB);
+        dobField.setText(dobDB);
+        phoneField.setText(phoneDB);
+        gradField.setText(gradDB);
+        postGradField.setText(pgDB);
+        aadhaarField.setText(aadhaarDB);
+        specField.setText(specDB);
+        deptField.setText(depDB);
+        emailField.setText(emailDB);
+
 
         name.setBounds(30, 60, 100, 15);
         facultyID.setBounds(30, 100, 100, 15);
@@ -68,15 +161,9 @@ class FacultyInformation extends JFrame {
         specField.setBounds(200, 455, 200, 25);
         deptField.setBounds(200, 495, 200, 25);
 
-        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/image-from-rawpixel-id-13020188-png.png"));
-        Image image = imageIcon.getImage().getScaledInstance(300, 400, Image.SCALE_DEFAULT);
-        ImageIcon imageIcon1 = new ImageIcon(image);
-        facultyImage = new JLabel(imageIcon1);
-        facultyImage.setBounds(420, 50, 300, 500);
-
-
 
         add(facultyImage);
+        add(downloadImage);
         add(title);
         add(name);
         add(facultyID);

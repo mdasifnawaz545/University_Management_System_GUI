@@ -165,8 +165,8 @@ class NewFaculty extends JFrame {
             facultyDBInstance.address = addressField.getText();
             facultyDBInstance.phone = phoneField.getText();
             facultyDBInstance.email = emailField.getText();
-            facultyDBInstance.graduation = Integer.parseInt(graduationField.getText());
-            facultyDBInstance.postGraduation = Integer.parseInt(postGraduationField.getText());
+            facultyDBInstance.graduation = Float.parseFloat(graduationField.getText());
+            facultyDBInstance.postGraduation = Float.parseFloat(postGraduationField.getText());
             facultyDBInstance.aadhaar = aadhaarField.getText();
             facultyDBInstance.department = (String) departmentField.getSelectedItem();
             facultyDBInstance.specialization = (String) specializationField.getSelectedItem();
