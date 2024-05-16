@@ -16,6 +16,8 @@ class MyFrame extends JFrame implements ActionListener {
         JLabel images = new JLabel(imageIcon1);
         add(images);
 
+
+
         JMenuBar menuBar = new JMenuBar();
         JMenu newInformation = new JMenu("Apply For");
         JMenuItem newFaculty = new JMenuItem("New Faculty");
@@ -123,8 +125,8 @@ class MyFrame extends JFrame implements ActionListener {
         });
         facultyInfo.addActionListener((e -> new UpdateFacultyPOP("Update Faculty")));
         studentInfo.addActionListener((e -> new UpdateStudentPOP("Update Student")));
-        facultyAttendance.addActionListener((e -> new FacultyAttendance()));
-        studentAttendance.addActionListener((e -> new StudentAttendance()));
+        facultyAttendance.addActionListener((e -> new FacultyAttendance(connection.connect)));
+        studentAttendance.addActionListener((e -> new StudentAttendance(connection.connect)));
         leaveApply.addActionListener((e -> {
             new ApplyLeave();
         })); //DB Conenection is required.

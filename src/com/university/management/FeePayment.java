@@ -27,8 +27,8 @@ class FeePayment extends JFrame {
         cancel = new JButton("Cancel");
 
         rollNo.setBounds(30,70,150,15);
-        studentList.setBounds(200,70,200,20);
-        search.setBounds(425,67,150,25);
+        studentList.setBounds(225,70,200,20);
+        search.setBounds(450,67,150,25);
         amountDue.setBounds(130,110,150,15);
         amountDueField.setBounds(260,110,150,20);
         pay.setBounds(110,150,150,25);

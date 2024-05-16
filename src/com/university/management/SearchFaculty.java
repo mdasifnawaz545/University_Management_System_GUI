@@ -72,7 +72,7 @@ this.connection=connection;
         });
         back.addActionListener(e -> setVisible(false));
         print.addActionListener(e -> {
-            new FacultyAttendance();
+            new FacultyAttendance(connection);
         });
         add(searchbyId);
         add(FacultyIdList);
