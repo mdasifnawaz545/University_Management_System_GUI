@@ -68,7 +68,7 @@ this.connection=connection;
             new NewFaculty(connection);
         });
         update.addActionListener(e -> {
-            new UpdateFaculty(Integer.parseInt((String) FacultyIdList.getSelectedItem()));
+            new UpdateFaculty(Integer.parseInt((String) FacultyIdList.getSelectedItem()),connection);
         });
         back.addActionListener(e -> setVisible(false));
         print.addActionListener(e -> {

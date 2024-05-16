@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class MyFrame extends JFrame implements ActionListener {
+class MainFrame extends JFrame implements ActionListener {
     DBConnection connection = new DBConnection();
 
-    public MyFrame() {
+    public MainFrame() {
 
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/KIIT_Campus.jpg"));
         Image image = imageIcon.getImage().getScaledInstance(1250, 700, Image.SCALE_DEFAULT);
@@ -123,8 +123,8 @@ class MyFrame extends JFrame implements ActionListener {
         student.addActionListener((e) -> {
             new SearchStudent(connection.connect);
         });
-        facultyInfo.addActionListener((e -> new UpdateFacultyPOP("Update Faculty")));
-        studentInfo.addActionListener((e -> new UpdateStudentPOP("Update Student")));
+        facultyInfo.addActionListener((e -> new UpdateFacultyPOP(connection.connect)));
+        studentInfo.addActionListener((e -> new UpdateStudentPOP(connection.connect)));
         facultyAttendance.addActionListener((e -> new FacultyAttendance(connection.connect)));
         studentAttendance.addActionListener((e -> new StudentAttendance(connection.connect)));
         leaveApply.addActionListener((e -> {
@@ -176,9 +176,9 @@ class MyFrame extends JFrame implements ActionListener {
     }
 }
 
-public class MainFrame {
-    public static void main(String args[]) {
-        MyFrame myFrame = new MyFrame();
-    }
-}
+//public class MainFrame {
+//    public static void main(String args[]) {
+//        MyFrame myFrame = new MyFrame();
+//    }
+//}
 

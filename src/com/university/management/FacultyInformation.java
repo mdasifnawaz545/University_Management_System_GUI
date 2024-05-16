@@ -89,9 +89,6 @@ class FacultyInformation extends JFrame {
         facultyImage.setBounds(420, 90, 275, 325);
         downloadImage.setBounds(450,440,200,25);
 
-
-
-
         title = new JLabel("Faculty Information");
         title.setFont(new Font("Roboto", 10, 20));
         title.setBounds(250, 10, 400, 25);

@@ -16,7 +16,7 @@ public class Main {
         }
         if(login.validation){
             login.setVisible(false);
-//            MainFrame mainFrame=new MainFrame();
+            MainFrame mainFrame=new MainFrame();
             break;
         }}
 

@@ -60,7 +60,7 @@ public class SearchStudent extends JFrame {
         back.addActionListener((e->setVisible(false)));
         search.addActionListener((e -> new StudentInformation(Integer.parseInt((String)StudentRollList.getSelectedItem()),connection)));
         add.addActionListener(e -> new NewStudent(connection));
-        update.addActionListener((e -> new UpdateStudent(Integer.parseInt((String)StudentRollList.getSelectedItem()))));
+        update.addActionListener((e -> new UpdateStudent(Integer.parseInt((String)StudentRollList.getSelectedItem()),connection)));
         print.addActionListener(e -> new StudentAttendance(connection));
 
         search.setBackground(new Color(144, 238, 144));
