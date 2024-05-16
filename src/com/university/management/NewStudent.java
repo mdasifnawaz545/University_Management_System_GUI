@@ -1,5 +1,6 @@
 package com.university.management;
 
+import javax.management.Query;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,8 @@ class NewStudent extends JFrame {
     JDateChooser dobField;
     JButton imageUplaodButton;
     JButton submit, cancel;
+
+    String feesAdd="INSERT INTO fees (roll,total_fees,paid_fees,due_fees) VALUES (?,?,?,?);";
 
     public NewStudent(Connection connection) {
         this.connection = connection;
@@ -173,6 +176,22 @@ class NewStudent extends JFrame {
             studentDBInstance.dob = ((JTextField)dobField.getDateEditor().getUiComponent()).getText();
             studentDBInstance.roll = Integer.parseInt(rollField.getText());
             studentDBInstance.assignedMentorID = Integer.parseInt(assignedMentorID.getText());
+
+//            Fees Database instance are added
+            try{
+                PreparedStatement preparedStatement=connection.prepareStatement(feesAdd);
+                preparedStatement.setInt(1,studentDBInstance.roll);
+                preparedStatement.setInt(1,2100000);
+                preparedStatement.setInt(1,0);
+                preparedStatement.setInt(1,2100000);
+
+                int rowsAffected=preparedStatement.executeUpdate();
+
+            }catch(SQLException sqlException){
+                System.out.println(sqlException);
+
+            }
+
 //            rollNo.getAndIncrement();
             databaseController = new DatabaseController();
             databaseController.InsertToDatabaseStudent(studentDBInstance);

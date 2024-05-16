@@ -4,20 +4,51 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ApplyLeave extends JFrame {
+    Connection connection;
+    String Query="INSERT INTO student_leave values (?,?,?);";
+    String allIdQuery = "SELECT (roll) FROM student;";
+    ArrayList <Integer> arrayList=new ArrayList<>();
     JLabel title, rollNo, date, duration;
     JDateChooser dateChooser;
     JComboBox durationList, rollList;
     JButton submit, cancel;
 
-    public ApplyLeave() {
+    public ApplyLeave(Connection connect){
+        connection=connect;
         setTitle("Leave Apply");
         setLayout(null);
 
+
+        try{
+            PreparedStatement preparedStatement=connection.prepareStatement(allIdQuery);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while(resultSet.next()){
+                arrayList.add(resultSet.getInt("roll"));
+            }
+
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String array[]=new String[arrayList.size()];
+        int i=0;
+        for(Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext();){
+            array[i++]= String.valueOf(iterator.next());
+        }
+
+
         title = new JLabel("Apply For Leave");
         rollNo = new JLabel("Choose Your Number");
-        rollList = new JComboBox();
+        rollList = new JComboBox(array);
         dateChooser = new JDateChooser();
         date = new JLabel("Choose a Date");
         duration = new JLabel("Duration of Leave");
@@ -29,6 +60,15 @@ public class ApplyLeave extends JFrame {
         cancel.addActionListener((e -> setVisible(false)));
         submit.addActionListener((e -> {
 //            Database code for leave
+            try{
+                PreparedStatement preparedStatement=connection.prepareStatement(Query);
+                preparedStatement.setInt(1,Integer.parseInt((String)rollList.getSelectedItem()));
+                preparedStatement.setString(2,(String)durationList.getSelectedItem());
+                preparedStatement.setString(3,((JTextField)dateChooser.getDateEditor().getUiComponent()).getText());
+                int rowsAffected = preparedStatement.executeUpdate();
+            }catch (SQLException s){
+                System.out.println(s);
+            }
             JOptionPane.showMessageDialog(null,"Leave Approved");
         }));
         title.setFont(new Font("Roboto",20,20));

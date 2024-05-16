@@ -128,17 +128,17 @@ class MyFrame extends JFrame implements ActionListener {
         facultyAttendance.addActionListener((e -> new FacultyAttendance(connection.connect)));
         studentAttendance.addActionListener((e -> new StudentAttendance(connection.connect)));
         leaveApply.addActionListener((e -> {
-            new ApplyLeave();
+            new ApplyLeave(connection.connect);
         })); //DB Conenection is required.
         leaveDetails.addActionListener((e -> {
-            new LeaveDetails();
+            new LeaveDetails(connection.connect);
         })); //DB Conenection is required.
 
-        gradeReport.addActionListener(e -> {new GradeReportPOP();});
-        uploadMarks.addActionListener(e -> {new StudentMarksEnter();});
+        gradeReport.addActionListener(e -> {new GradeReportPOP(connection.connect);});
+        uploadMarks.addActionListener(e -> {new StudentMarksEnter(connection.connect);});
 
         feeStructure.addActionListener(e -> {new FeeStructure();});
-        feePayment.addActionListener(e -> {new FeePayment();});
+        feePayment.addActionListener(e -> {new FeePayment(connection.connect);});
 
 
 

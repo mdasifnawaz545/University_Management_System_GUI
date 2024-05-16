@@ -2,21 +2,56 @@ package com.university.management;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 class StudentMarksEnter extends JFrame {
+    Connection connection;
     JLabel title, rollNo, semester, subjects, marks;
     JComboBox rollField, semesterField;
     JButton submit, cancel;
+    String allIdQuery = "SELECT (roll) FROM student;";
+    ArrayList<Integer> arrayList=new ArrayList<>();
     JTextField sub1, sub2, sub3, sub4, sub5, mar1, mar2, mar3, mar4, mar5;
-
-    public StudentMarksEnter() {
+String Query="INSERT INTO grade_report VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+    public StudentMarksEnter(Connection connect) {
+        this.connection = connect;
         setTitle("Student Marks Upload");
         setLayout(null);
-String sem[]={"1st","2nd","3rd","4th","5th","6th","7th","8th"};
+
+
+        try{
+            PreparedStatement preparedStatement=connection.prepareStatement(allIdQuery);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while(resultSet.next()){
+                arrayList.add(((ResultSet) resultSet).getInt("roll"));
+            }
+
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String array[]=new String[arrayList.size()];
+        int i=0;
+        for(Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext();){
+            array[i++]= String.valueOf(iterator.next());
+        }
+
+
+
+
+
+
+        String sem[] = {"1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"};
         title = new JLabel("Upload Student Marks");
         title.setFont(new Font("Roboto", 15, 25));
         rollNo = new JLabel("Select Student Roll No");
-        rollField = new JComboBox();
+        rollField = new JComboBox(array);
         semester = new JLabel("Select Semester");
         semesterField = new JComboBox(sem);
         subjects = new JLabel("Enter Subject Name");
@@ -58,6 +93,28 @@ String sem[]={"1st","2nd","3rd","4th","5th","6th","7th","8th"};
         cancel.setBackground(new Color(135, 206, 250));
         submit.addActionListener(e -> {
 //            Database Code
+
+            try{
+                PreparedStatement preparedStatement=connection.prepareStatement(Query);
+                preparedStatement.setInt(1,Integer.parseInt((String)rollField.getSelectedItem()));
+                preparedStatement.setString(2,(String)semesterField.getSelectedItem());
+                preparedStatement.setString(3,sub1.getText());
+                preparedStatement.setString(4,sub2.getText());
+                preparedStatement.setString(5,sub3.getText());
+                preparedStatement.setString(6,sub4.getText());
+                preparedStatement.setString(7,sub5.getText());
+                preparedStatement.setInt(8,Integer.parseInt(mar1.getText()));
+                preparedStatement.setInt(9,Integer.parseInt(mar2.getText()));
+                preparedStatement.setInt(10,Integer.parseInt(mar3.getText()));
+                preparedStatement.setInt(11,Integer.parseInt(mar4.getText()));
+                preparedStatement.setInt(12,Integer.parseInt(mar5.getText()));
+
+                int rowsAffected=preparedStatement.executeUpdate();
+
+            }catch (SQLException sqle){
+                System.out.println(sqle);
+            }
+
             JOptionPane.showMessageDialog(null, "Marks Uploaded");
         });
         cancel.addActionListener((e) -> {
@@ -86,7 +143,7 @@ String sem[]={"1st","2nd","3rd","4th","5th","6th","7th","8th"};
         add(cancel);
 
 
-        setLocation(350, 50);
+        setLocation(350, 75);
         setSize(575, 600);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
