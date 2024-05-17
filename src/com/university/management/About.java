@@ -15,6 +15,6 @@ public class About extends JFrame {
         setSize(650, 500);
         setLocation(340, 150);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

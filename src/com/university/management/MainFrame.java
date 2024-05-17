@@ -4,18 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 class MainFrame extends JFrame implements ActionListener {
     DBConnection connection = new DBConnection();
 
     public MainFrame() {
 
-        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/KIIT_Campus.jpg"));
+        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/KIIT_2.jpg"));
         Image image = imageIcon.getImage().getScaledInstance(1250, 700, Image.SCALE_DEFAULT);
         ImageIcon imageIcon1 = new ImageIcon(image);
         JLabel images = new JLabel(imageIcon1);
         add(images);
-
 
 
         JMenuBar menuBar = new JMenuBar();
@@ -58,7 +58,7 @@ class MainFrame extends JFrame implements ActionListener {
         JMenu examination = new JMenu("Examination");
         examination.setForeground(new Color(0, 204, 0));
         JMenuItem gradeReport = new JMenuItem("Grade Report");
-        JMenuItem uploadMarks=new JMenuItem("Upload Marks");
+        JMenuItem uploadMarks = new JMenuItem("Upload Marks");
         gradeReport.setForeground(new Color(0, 0, 255));
         uploadMarks.setForeground(new Color(0, 0, 255));
         examination.add(gradeReport);
@@ -106,7 +106,84 @@ class MainFrame extends JFrame implements ActionListener {
         mExit.add(exit);
         exit.setForeground(new Color(255, 0, 0));
         menuBar.add(mExit);
+
+//        Icon
+
+        ImageIcon imageIcon2 = new ImageIcon(getClass().getClassLoader().getResource("Images/plus-sign_11656281.png"));
+        Image image1 = imageIcon2.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon3 = new ImageIcon(image1);
+        newInformation.setIcon(imageIcon3);
+
+
+        ImageIcon imageIcon28 = new ImageIcon(getClass().getClassLoader().getResource("Images/searh_8708741.png"));
+        Image image18 = imageIcon28.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon38 = new ImageIcon(image18);
+
+        viewInformation.setIcon(imageIcon38);
+
+
+        ImageIcon imageIcon4 = new ImageIcon(getClass().getClassLoader().getResource("Images/calendars_6787442.png"));
+        Image image2 = imageIcon4.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon5 = new ImageIcon(image2);
+
+        attendance.setIcon(imageIcon5);
+
+
+        ImageIcon imageIcon6 = new ImageIcon(getClass().getClassLoader().getResource("Images/exit_12406857.png"));
+        Image image3 = imageIcon6.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon7 = new ImageIcon(image3);
+
+        leave.setIcon(imageIcon7);
+
+
+        ImageIcon imageIcon8 = new ImageIcon(getClass().getClassLoader().getResource("Images/dna-test_8342741.png"));
+        Image image8 = imageIcon8.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon20 = new ImageIcon(image8);
+
+        examination.setIcon(imageIcon20);
+
+
+        ImageIcon imageIcon9 = new ImageIcon(getClass().getClassLoader().getResource("Images/Fees.jpg"));
+        Image image9 = imageIcon9.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon21 = new ImageIcon(image9);
+
+        feeDetails.setIcon(imageIcon21);
+
+
+        ImageIcon imageIcon24 = new ImageIcon(getClass().getClassLoader().getResource("Images/refresh_8600369.png"));
+        Image image188 = imageIcon24.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon25 = new ImageIcon(image188);
+
+        updateInfo.setIcon(imageIcon25);
+
+
+        ImageIcon imageIcon26 = new ImageIcon(getClass().getClassLoader().getResource("Images/maintenance_9784031.png"));
+        Image image14 = imageIcon26.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon27 = new ImageIcon(image14);
+
+        tools.setIcon(imageIcon27);
+
+
+        ImageIcon imageIcon2d8 = new ImageIcon(getClass().getClassLoader().getResource("Images/letter-i_11165425.png"));
+        Image image31 = imageIcon2d8.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon29 = new ImageIcon(image31);
+
+        about.setIcon(imageIcon29);
+
+
+        ImageIcon imageIcon30 = new ImageIcon(getClass().getClassLoader().getResource("Images/log-out_10080391.png"));
+        Image image111 = imageIcon30.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon imageIcon31 = new ImageIcon(image111);
+
+        mExit.setIcon(imageIcon31);
+
         exit.addActionListener((e) -> {
+            try {
+                connection.connect.close();
+                System.out.println("Connection is Closed.");
+            } catch (SQLException sqlException) {
+                System.out.println(sqlException);
+            }
             System.exit(1);
         });
         calculator.addActionListener(this);
@@ -134,13 +211,19 @@ class MainFrame extends JFrame implements ActionListener {
             new LeaveDetails(connection.connect);
         })); //DB Conenection is required.
 
-        gradeReport.addActionListener(e -> {new GradeReportPOP(connection.connect);});
-        uploadMarks.addActionListener(e -> {new StudentMarksEnter(connection.connect);});
+        gradeReport.addActionListener(e -> {
+            new GradeReportPOP(connection.connect);
+        });
+        uploadMarks.addActionListener(e -> {
+            new StudentMarksEnter(connection.connect);
+        });
 
-        feeStructure.addActionListener(e -> {new FeeStructure();});
-        feePayment.addActionListener(e -> {new FeePayment(connection.connect);});
-
-
+        feeStructure.addActionListener(e -> {
+            new FeeStructure();
+        });
+        feePayment.addActionListener(e -> {
+            new FeePayment(connection.connect);
+        });
 
 
         setJMenuBar(menuBar);

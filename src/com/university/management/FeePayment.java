@@ -36,6 +36,8 @@ class FeePayment extends JFrame {
             while (resultSet.next()) {
                 arrayList.add(resultSet.getInt("roll"));
             }
+            resultSet.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -82,6 +84,8 @@ class FeePayment extends JFrame {
                 while (resultSet.next()) {
                     due_fees = (resultSet.getInt("due_fees"));
                 }
+                resultSet.close();
+                preparedStatement.close();
                 amountDueField.setText(String.valueOf(due_fees));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
@@ -95,9 +99,10 @@ class FeePayment extends JFrame {
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(Query2);
                 preparedStatement.setInt(1, due);
-                preparedStatement.setInt(2,Integer.parseInt(amountPayField.getText()));
+                preparedStatement.setInt(2, Integer.parseInt(amountPayField.getText()));
                 preparedStatement.setInt(3, (Integer.parseInt((String) studentList.getSelectedItem())));
                 int rowsAffected = preparedStatement.executeUpdate();
+                preparedStatement.close();
             } catch (SQLException sqlException) {
                 System.out.println(sqlException);
             }

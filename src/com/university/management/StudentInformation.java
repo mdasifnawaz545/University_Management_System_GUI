@@ -79,6 +79,8 @@ class StudentInformation extends JFrame {
                 emailField.setText(resultSet.getString("email_id"));
                 imageData = resultSet.getBlob("image");
             }
+            resultSet.close();
+            preparedStatement.close();
         } catch (SQLException sqlException) {
             System.out.println(sqlException);
         }
@@ -86,11 +88,12 @@ class StudentInformation extends JFrame {
         long randomValue = Math.abs((random.nextLong() % 9000) + 1000);
 
         String folderPath = "C:\\Users\\KIIT\\IdeaProjects\\demo\\University Management System\\src\\DBImages\\";
-        String filePath = folderPath + "_Student_Image_" + randomValue;
+        String filePath = folderPath + "_Student_Image_" + randomValue + ".jpg";
         try {
             imgData = imageData.getBytes(1, (int) imageData.length());
             FileOutputStream fileOutputStream = new FileOutputStream(filePath);
             fileOutputStream.write(imgData);
+            fileOutputStream.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (FileNotFoundException e) {
@@ -137,21 +140,22 @@ class StudentInformation extends JFrame {
             Random random1 = new Random();
             long randomValue1 = Math.abs((random.nextLong() % 9000) + 1000);
             String folder_Path = "C:\\Users\\KIIT\\IdeaProjects\\demo\\University Management System\\src\\DBImages\\";
-            String fileName = folder_Path + "_Database_Images_" + (randomValue);
+            String fileName = folder_Path + "_Database_Images_" + (randomValue) + ".jpg";
             try {
                 FileOutputStream fileOutputStream = new FileOutputStream(fileName);
                 fileOutputStream.write(imgData);
+                fileOutputStream.close();
             } catch (IOException ioe) {
                 System.out.println(ioe);
             }
         });
 
-        panel=new JPanel();
-        panel.setBounds(400,80,325,410);
+        panel = new JPanel();
+        panel.setBounds(400, 80, 325, 410);
 
         studentImage.setBounds(420, 110, 275, 325);
-        downloadImage.setBounds(450,460,200,25);
-        Border border=BorderFactory.createLineBorder(new Color(0, 204, 0));
+        downloadImage.setBounds(450, 460, 200, 25);
+        Border border = BorderFactory.createLineBorder(new Color(0, 204, 0));
 
         panel.setBorder(border);
         add(downloadImage);
@@ -191,7 +195,7 @@ class StudentInformation extends JFrame {
         setSize(750, 600);
         setLocation(250, 80);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 }

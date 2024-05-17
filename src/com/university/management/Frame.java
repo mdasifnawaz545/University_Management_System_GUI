@@ -8,7 +8,7 @@ public class Frame extends JFrame {
     public Frame() {
         setTitle("Kalinga Institute of Industrial Technology");
         setVisible(true);
-        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/KIITCampus.jpg"));
+        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("Images/KIIT_1.jpg"));
         Image imageIcon1 = imageIcon.getImage().getScaledInstance(1275, 700, Image.SCALE_DEFAULT);
         ImageIcon imageIcon2 = new ImageIcon(imageIcon1);
         JLabel image = new JLabel(imageIcon2);
@@ -43,7 +43,7 @@ public class Frame extends JFrame {
         } catch (InterruptedException ie) {
             System.out.println(ie);
         }
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 }

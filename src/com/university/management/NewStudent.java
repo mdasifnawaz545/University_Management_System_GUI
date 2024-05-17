@@ -29,7 +29,6 @@ class NewStudent extends JFrame {
     JButton imageUplaodButton;
     JButton submit, cancel;
 
-    String feesAdd="INSERT INTO fees (roll,total_fees,paid_fees,due_fees) VALUES (?,?,?,?);";
 
     public NewStudent(Connection connection) {
         this.connection = connection;
@@ -62,6 +61,8 @@ class NewStudent extends JFrame {
             while (resultSet.next()) {
                 mentorIdDB = resultSet.getInt("faculty_id");
             }
+            resultSet.close();
+            preparedStatement.close();
         } catch (SQLException sqlException) {
             System.out.println(sqlException);
         }
@@ -151,6 +152,7 @@ class NewStudent extends JFrame {
                         FileInputStream fileInputStream = new FileInputStream(imageFile);
                         studentDBInstance.imageData = new byte[fileInputStream.available()];
                         fileInputStream.read(studentDBInstance.imageData);
+                        fileInputStream.close();
 
                     } catch (FileNotFoundException ie) {
                         System.out.println(ie);
@@ -171,26 +173,11 @@ class NewStudent extends JFrame {
             studentDBInstance.classX = Float.parseFloat(classXField.getText());
             studentDBInstance.classXII = Float.parseFloat(classXIIField.getText());
             studentDBInstance.aadhaar = (aadhaarField.getText());
-            studentDBInstance.course =(String) courseField.getSelectedItem();
+            studentDBInstance.course = (String) courseField.getSelectedItem();
             studentDBInstance.branch = (String) branchField.getSelectedItem();
-            studentDBInstance.dob = ((JTextField)dobField.getDateEditor().getUiComponent()).getText();
+            studentDBInstance.dob = ((JTextField) dobField.getDateEditor().getUiComponent()).getText();
             studentDBInstance.roll = Integer.parseInt(rollField.getText());
             studentDBInstance.assignedMentorID = Integer.parseInt(assignedMentorID.getText());
-
-//            Fees Database instance are added
-            try{
-                PreparedStatement preparedStatement=connection.prepareStatement(feesAdd);
-                preparedStatement.setInt(1,studentDBInstance.roll);
-                preparedStatement.setInt(1,2100000);
-                preparedStatement.setInt(1,0);
-                preparedStatement.setInt(1,2100000);
-
-                int rowsAffected=preparedStatement.executeUpdate();
-
-            }catch(SQLException sqlException){
-                System.out.println(sqlException);
-
-            }
 
 //            rollNo.getAndIncrement();
             databaseController = new DatabaseController();
@@ -235,6 +222,6 @@ class NewStudent extends JFrame {
         setSize(750, 650);
         setLocation(250, 55);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 public class DatabaseController {
     public StudentDBInstance studentDBInstance;
     public FacultyDBInstance facultyDBInstance;
+    String feesAdd = "INSERT INTO fees (roll,total_fees,paid_fees,due_fees) VALUES (?,?,?,?);";
+
     String studentInsertQuery = "INSERT INTO student VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
     String facultyInsertQuery = "INSERT INTO faculty VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
     DBConnection connection = new DBConnection();
@@ -32,6 +34,24 @@ public class DatabaseController {
             preparedStatement.setInt(15, 100);
 
             int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+
+//            Fees Database instance are added
+            try {
+                PreparedStatement preparedStatement1 = connection.connect.prepareStatement(feesAdd);
+                preparedStatement1.setInt(1, studentDBInstance.roll);
+                preparedStatement1.setInt(2, 2100000);
+                preparedStatement1.setInt(3, 0);
+                preparedStatement1.setInt(4, 2100000);
+
+                int rowsAffected1 = preparedStatement1.executeUpdate();
+                preparedStatement1.close();
+
+            } catch (SQLException sqlException) {
+                System.out.println(sqlException);
+
+            }
         } catch (SQLException sqlException) {
             System.out.println(sqlException);
         }
@@ -57,6 +77,7 @@ public class DatabaseController {
             preparedStatement.setInt(14, 100);
 
             int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.close();
 
         } catch (SQLException sqle) {
             System.out.println(sqle);

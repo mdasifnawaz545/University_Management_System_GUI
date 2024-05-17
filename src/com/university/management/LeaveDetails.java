@@ -66,6 +66,8 @@ public class LeaveDetails extends JFrame {
                     details = ("Leave Details :  " + resultSet.getString("leave_type") + "  -  " + resultSet.getString("leave_date"));
 //                    Leave_Details.setText("Leave Details : "+resultSet.getString("leave_date")+"                      -  "+resultSet.getString("leave_type"));
                 }
+                resultSet.close();
+                preparedStatement.close();
                 new LeaveDetailsPOP(details);
 //                add(Leave_Details);
             } catch (SQLException sqle) {
@@ -92,7 +94,7 @@ public class LeaveDetails extends JFrame {
         setLocation(435, 180);
         setSize(375, 365);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
     }

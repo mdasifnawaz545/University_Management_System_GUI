@@ -12,24 +12,26 @@ import java.util.Iterator;
 
 public class SearchFaculty extends JFrame {
     Connection connection;
-    String allFacultyId="SELECT (faculty_id) FROM faculty;";
+    String allFacultyId = "SELECT (faculty_id) FROM faculty;";
     JLabel searchbyId;
     JComboBox FacultyIdList;
     JButton search, add, update, print, back;
-    ArrayList<Integer> arrayList=new ArrayList<>();
+    ArrayList<Integer> arrayList = new ArrayList<>();
 
     public SearchFaculty(Connection connection) {
-this.connection=connection;
+        this.connection = connection;
         setTitle("Search for Faculty");
         setLayout(null);
 
-        try{
-            PreparedStatement preparedStatement=connection.prepareStatement(allFacultyId);
-            ResultSet resultSet=preparedStatement.executeQuery();
-            while(resultSet.next()){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(allFacultyId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 arrayList.add(resultSet.getInt("faculty_id"));
             }
-        }catch (SQLException sqlException) {
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException sqlException) {
             System.out.println(sqlException);
         }
 
@@ -41,9 +43,9 @@ this.connection=connection;
         print = new JButton("Attendance");
         back = new JButton("Back");
         String array[] = new String[arrayList.size()];
-        int i=0;
-        for(Iterator<Integer> iterator=arrayList.iterator();iterator.hasNext();){
-            array[i++]= String.valueOf(iterator.next());
+        int i = 0;
+        for (Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext(); ) {
+            array[i++] = String.valueOf(iterator.next());
         }
         FacultyIdList = new JComboBox(array);
 
@@ -62,13 +64,13 @@ this.connection=connection;
         search.setBackground(new Color(135, 206, 250));
         back.addActionListener((e -> setVisible(false)));
         search.addActionListener((e -> {
-                new FacultyInformation(Integer.parseInt((String) FacultyIdList.getSelectedItem()),connection);
+            new FacultyInformation(Integer.parseInt((String) FacultyIdList.getSelectedItem()), connection);
         }));
         add.addActionListener(e -> {
             new NewFaculty(connection);
         });
         update.addActionListener(e -> {
-            new UpdateFaculty(Integer.parseInt((String) FacultyIdList.getSelectedItem()),connection);
+            new UpdateFaculty(Integer.parseInt((String) FacultyIdList.getSelectedItem()), connection);
         });
         back.addActionListener(e -> setVisible(false));
         print.addActionListener(e -> {
@@ -85,6 +87,6 @@ this.connection=connection;
         setLocation(335, 250);
         setSize(650, 150);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

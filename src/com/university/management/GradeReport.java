@@ -64,11 +64,15 @@ public class GradeReport extends JFrame {
             while (resultSet1.next()) {
                 studentName = resultSet1.getString("name");
             }
+            preparedStatement1.close();
+            preparedStatement.close();
+            resultSet1.close();
+            resultSet.close();
         } catch (SQLException sqlException) {
             System.out.println(sqlException);
         }
         float sgpa_sem;
-        int g1 = 0, g2=0, g3=0, g4=0, g5=0;
+        int g1 = 0, g2 = 0, g3 = 0, g4 = 0, g5 = 0;
         //
         if ((mar1 | mar2 | mar3 | mar4 | mar5) >= 90) {
 
@@ -126,7 +130,7 @@ public class GradeReport extends JFrame {
         add(name);
         add(rollNo);
         add(semester);
-        add(cgpa);
+//        add(cgpa);
         add(row1);
         add(row2);
         add(row3);
@@ -138,7 +142,7 @@ public class GradeReport extends JFrame {
         setLocation(400, 75);
         setSize(450, 550);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 

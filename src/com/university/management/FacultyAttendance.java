@@ -9,48 +9,53 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class FacultyAttendance extends JFrame{
+public class FacultyAttendance extends JFrame {
 
     JComboBox facultyList;
 
     int att;
     JLabel facultylist, attendance;
     JButton search;
-    ArrayList<Integer> arrayList=new ArrayList<>();
+    ArrayList<Integer> arrayList = new ArrayList<>();
     Connection connection;
     String allIdQuery = "SELECT (faculty_id) FROM faculty;";
     String findAttendanceQuery = "SELECT (attendance) FROM faculty WHERE faculty_id=?;";
 
     int rollNo;
-    String attend="Total Attendance(%)      -       " + 100;
-    public void getAttendance(String atted){
+    String attend = "Total Attendance(%)      -       " + 100;
+
+    public void getAttendance(String atted) {
         attendance = new JLabel(atted);
-        attendance.setBounds(20,25,350,15);
+        attendance.setBounds(20, 25, 350, 15);
         System.out.println(attendance.getText());
         add(attendance);
-    };
+    }
+
+    ;
+
     public FacultyAttendance(Connection connect) {
 
-        this.connection=connect;
+        this.connection = connect;
         setTitle("Faculty Attendance");
         setLayout(null);
 
-        try{
-            PreparedStatement preparedStatement=connection.prepareStatement(allIdQuery);
-            ResultSet resultSet=preparedStatement.executeQuery();
-            while(resultSet.next()){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(allIdQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 arrayList.add(resultSet.getInt("faculty_id"));
             }
+            preparedStatement.close();
+            resultSet.close();
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        String array[]=new String[arrayList.size()];
-        int i=0;
-        for(Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext();){
-            array[i++]= String.valueOf(iterator.next());
+        String array[] = new String[arrayList.size()];
+        int i = 0;
+        for (Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext(); ) {
+            array[i++] = String.valueOf(iterator.next());
         }
         facultyList = new JComboBox(array);
         search = new JButton("Search");
@@ -62,19 +67,18 @@ public class FacultyAttendance extends JFrame{
 
 
         search.addActionListener((e -> {
-            try{
-                PreparedStatement preparedStatement=connection.prepareStatement(findAttendanceQuery);
-                preparedStatement.setInt(1,Integer.parseInt((String)(facultyList.getSelectedItem())));
-                ResultSet resultSet=preparedStatement.executeQuery();
-                while (resultSet.next())
-                {
-                    att=resultSet.getInt("attendance");
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(findAttendanceQuery);
+                preparedStatement.setInt(1, Integer.parseInt((String) (facultyList.getSelectedItem())));
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    att = resultSet.getInt("attendance");
                 }
                 attend = ("Total Attendance(%)      -       " + att);
                 new AttendacePOP(attend);
 
 
-            }catch (SQLException sqle){
+            } catch (SQLException sqle) {
                 System.out.println(sqle);
             }
 
@@ -84,10 +88,11 @@ public class FacultyAttendance extends JFrame{
         add(facultyList);
         add(facultylist);
         add(search);
+
         setLocation(335, 250);
         setSize(650, 100);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 

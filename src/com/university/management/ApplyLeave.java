@@ -13,36 +13,35 @@ import java.util.Iterator;
 
 public class ApplyLeave extends JFrame {
     Connection connection;
-    String Query="INSERT INTO student_leave values (?,?,?);";
+    String Query = "INSERT INTO student_leave values (?,?,?);";
     String allIdQuery = "SELECT (roll) FROM student;";
-    ArrayList <Integer> arrayList=new ArrayList<>();
+    ArrayList<Integer> arrayList = new ArrayList<>();
     JLabel title, rollNo, date, duration;
     JDateChooser dateChooser;
     JComboBox durationList, rollList;
     JButton submit, cancel;
 
-    public ApplyLeave(Connection connect){
-        connection=connect;
+    public ApplyLeave(Connection connect) {
+        connection = connect;
         setTitle("Leave Apply");
         setLayout(null);
 
 
-        try{
-            PreparedStatement preparedStatement=connection.prepareStatement(allIdQuery);
-            ResultSet resultSet=preparedStatement.executeQuery();
-            while(resultSet.next()){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(allIdQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 arrayList.add(resultSet.getInt("roll"));
             }
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        String array[]=new String[arrayList.size()];
-        int i=0;
-        for(Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext();){
-            array[i++]= String.valueOf(iterator.next());
+        String array[] = new String[arrayList.size()];
+        int i = 0;
+        for (Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext(); ) {
+            array[i++] = String.valueOf(iterator.next());
         }
 
 
@@ -60,27 +59,29 @@ public class ApplyLeave extends JFrame {
         cancel.addActionListener((e -> setVisible(false)));
         submit.addActionListener((e -> {
 //            Database code for leave
-            try{
-                PreparedStatement preparedStatement=connection.prepareStatement(Query);
-                preparedStatement.setInt(1,Integer.parseInt((String)rollList.getSelectedItem()));
-                preparedStatement.setString(2,(String)durationList.getSelectedItem());
-                preparedStatement.setString(3,((JTextField)dateChooser.getDateEditor().getUiComponent()).getText());
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(Query);
+                preparedStatement.setInt(1, Integer.parseInt((String) rollList.getSelectedItem()));
+                preparedStatement.setString(2, (String) durationList.getSelectedItem());
+                preparedStatement.setString(3, ((JTextField) dateChooser.getDateEditor().getUiComponent()).getText());
                 int rowsAffected = preparedStatement.executeUpdate();
-            }catch (SQLException s){
+                preparedStatement.close();
+            } catch (SQLException s) {
                 System.out.println(s);
             }
-            JOptionPane.showMessageDialog(null,"Leave Approved");
+
+            JOptionPane.showMessageDialog(null, "Leave Approved");
         }));
-        title.setFont(new Font("Roboto",20,20));
-        title.setBounds(100,30,300,25);
-        rollNo.setBounds(30,80,150,15);
-        rollList.setBounds(170,80,150,20);
-        date.setBounds(30,130,150,15);
-        dateChooser.setBounds(170,130,150,20);
-        duration.setBounds(30,180,150,15);
-        durationList.setBounds(170,170,150,20);
-        submit.setBounds(100,230,150,20);
-        cancel.setBounds(100,270,150,20);
+        title.setFont(new Font("Roboto", 20, 20));
+        title.setBounds(100, 30, 300, 25);
+        rollNo.setBounds(30, 80, 150, 15);
+        rollList.setBounds(170, 80, 150, 20);
+        date.setBounds(30, 130, 150, 15);
+        dateChooser.setBounds(170, 130, 150, 20);
+        duration.setBounds(30, 180, 150, 15);
+        durationList.setBounds(170, 170, 150, 20);
+        submit.setBounds(100, 230, 150, 20);
+        cancel.setBounds(100, 270, 150, 20);
 
 
         submit.setBackground(new Color(144, 238, 144));
@@ -96,10 +97,11 @@ public class ApplyLeave extends JFrame {
         add(submit);
         add(cancel);
 
+
         setLocation(450, 150);
         setSize(375, 400);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 }

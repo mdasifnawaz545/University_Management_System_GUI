@@ -15,36 +15,34 @@ class StudentMarksEnter extends JFrame {
     JComboBox rollField, semesterField;
     JButton submit, cancel;
     String allIdQuery = "SELECT (roll) FROM student;";
-    ArrayList<Integer> arrayList=new ArrayList<>();
+    ArrayList<Integer> arrayList = new ArrayList<>();
     JTextField sub1, sub2, sub3, sub4, sub5, mar1, mar2, mar3, mar4, mar5;
-String Query="INSERT INTO grade_report VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+    String Query = "INSERT INTO grade_report VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+
     public StudentMarksEnter(Connection connect) {
         this.connection = connect;
         setTitle("Student Marks Upload");
         setLayout(null);
 
 
-        try{
-            PreparedStatement preparedStatement=connection.prepareStatement(allIdQuery);
-            ResultSet resultSet=preparedStatement.executeQuery();
-            while(resultSet.next()){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(allIdQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 arrayList.add(((ResultSet) resultSet).getInt("roll"));
             }
+            resultSet.close();
+            preparedStatement.close();
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        String array[]=new String[arrayList.size()];
-        int i=0;
-        for(Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext();){
-            array[i++]= String.valueOf(iterator.next());
+        String array[] = new String[arrayList.size()];
+        int i = 0;
+        for (Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext(); ) {
+            array[i++] = String.valueOf(iterator.next());
         }
-
-
-
-
 
 
         String sem[] = {"1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"};
@@ -94,24 +92,24 @@ String Query="INSERT INTO grade_report VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
         submit.addActionListener(e -> {
 //            Database Code
 
-            try{
-                PreparedStatement preparedStatement=connection.prepareStatement(Query);
-                preparedStatement.setInt(1,Integer.parseInt((String)rollField.getSelectedItem()));
-                preparedStatement.setString(2,(String)semesterField.getSelectedItem());
-                preparedStatement.setString(3,sub1.getText());
-                preparedStatement.setString(4,sub2.getText());
-                preparedStatement.setString(5,sub3.getText());
-                preparedStatement.setString(6,sub4.getText());
-                preparedStatement.setString(7,sub5.getText());
-                preparedStatement.setInt(8,Integer.parseInt(mar1.getText()));
-                preparedStatement.setInt(9,Integer.parseInt(mar2.getText()));
-                preparedStatement.setInt(10,Integer.parseInt(mar3.getText()));
-                preparedStatement.setInt(11,Integer.parseInt(mar4.getText()));
-                preparedStatement.setInt(12,Integer.parseInt(mar5.getText()));
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(Query);
+                preparedStatement.setInt(1, Integer.parseInt((String) rollField.getSelectedItem()));
+                preparedStatement.setString(2, (String) semesterField.getSelectedItem());
+                preparedStatement.setString(3, sub1.getText());
+                preparedStatement.setString(4, sub2.getText());
+                preparedStatement.setString(5, sub3.getText());
+                preparedStatement.setString(6, sub4.getText());
+                preparedStatement.setString(7, sub5.getText());
+                preparedStatement.setInt(8, Integer.parseInt(mar1.getText()));
+                preparedStatement.setInt(9, Integer.parseInt(mar2.getText()));
+                preparedStatement.setInt(10, Integer.parseInt(mar3.getText()));
+                preparedStatement.setInt(11, Integer.parseInt(mar4.getText()));
+                preparedStatement.setInt(12, Integer.parseInt(mar5.getText()));
 
-                int rowsAffected=preparedStatement.executeUpdate();
-
-            }catch (SQLException sqle){
+                int rowsAffected = preparedStatement.executeUpdate();
+                preparedStatement.close();
+            } catch (SQLException sqle) {
                 System.out.println(sqle);
             }
 
@@ -146,7 +144,7 @@ String Query="INSERT INTO grade_report VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
         setLocation(350, 75);
         setSize(575, 600);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 

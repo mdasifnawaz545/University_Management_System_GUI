@@ -9,16 +9,16 @@ import java.util.Random;
 
 class UpdateFaculty extends JFrame {
     int facultyId;
-    String new_address,new_phone,new_email;
+    String new_address, new_phone, new_email;
     byte imageData[];
     Blob imgData;
-    JButton downloadImage,update, cancel;
+    JButton downloadImage, update, cancel;
     Connection connection;
     String Query = "SELECT * FROM faculty WHERE faculty_id=?";
     String updateQuery = "UPDATE faculty SET address=? , phone=? , email_id=? WHERE faculty_id=?;";
-    String nameDB,idDB,addressDB,fathersNameDB,dobDB,phoneDB,gradDB,pgDB,aadhaarDB,specDB,depDB,emailDB;
-JTextField addressField, phoneField, emailField;
-    JLabel address, phone, email,title, name, facultyID, fatherName, idField, dob, graduation, postGraduation, aadhaar, specialization, department, facultyImage, nameField, dobField, specField, deptField, fatherNameField, gradField, postGradField, aadhaarField, imageField;
+    String nameDB, idDB, addressDB, fathersNameDB, dobDB, phoneDB, gradDB, pgDB, aadhaarDB, specDB, depDB, emailDB;
+    JTextField addressField, phoneField, emailField;
+    JLabel address, phone, email, title, name, facultyID, fatherName, idField, dob, graduation, postGraduation, aadhaar, specialization, department, facultyImage, nameField, dobField, specField, deptField, fatherNameField, gradField, postGradField, aadhaarField, imageField;
 
     public UpdateFaculty(int facultyId, Connection connection) {
         this.facultyId = facultyId;
@@ -26,60 +26,62 @@ JTextField addressField, phoneField, emailField;
         setTitle("Faculty");
         setLayout(null);
 
-        downloadImage=new JButton("Download Image");
+        downloadImage = new JButton("Download Image");
 
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
-            preparedStatement.setInt(1,this.facultyId);
+            preparedStatement.setInt(1, this.facultyId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                nameDB=(resultSet.getString("name"));
-                idDB=(String.valueOf(resultSet.getInt("faculty_id")));
-                addressDB=(resultSet.getString("address"));
-                fathersNameDB=(resultSet.getString("fathers_name"));
-                dobDB=(resultSet.getString("dob"));
-                phoneDB=(resultSet.getString("phone"));
-                gradDB=(String.valueOf(resultSet.getFloat("graduation")));
-                pgDB=(String.valueOf(resultSet.getFloat("post_graduation")));
-                aadhaarDB=(resultSet.getString("aadhaar_no"));
-                specDB=(resultSet.getString("specialisation"));
-                depDB=(resultSet.getString("department"));
-                emailDB=(resultSet.getString("email_id"));
+                nameDB = (resultSet.getString("name"));
+                idDB = (String.valueOf(resultSet.getInt("faculty_id")));
+                addressDB = (resultSet.getString("address"));
+                fathersNameDB = (resultSet.getString("fathers_name"));
+                dobDB = (resultSet.getString("dob"));
+                phoneDB = (resultSet.getString("phone"));
+                gradDB = (String.valueOf(resultSet.getFloat("graduation")));
+                pgDB = (String.valueOf(resultSet.getFloat("post_graduation")));
+                aadhaarDB = (resultSet.getString("aadhaar_no"));
+                specDB = (resultSet.getString("specialisation"));
+                depDB = (resultSet.getString("department"));
+                emailDB = (resultSet.getString("email_id"));
                 imgData = resultSet.getBlob("image");
             }
+            resultSet.close();
+            preparedStatement.close();
         } catch (SQLException sqlException) {
             System.out.println(sqlException);
         }
 
-        downloadImage.addActionListener((e)->{
-            Random random=new Random();
-            long randomValue=Math.abs((random.nextLong() % 9000 ) + 1000);
+        downloadImage.addActionListener((e) -> {
+            Random random = new Random();
+            long randomValue = Math.abs((random.nextLong() % 9000) + 1000);
             String folder_Path = "C:\\Users\\KIIT\\IdeaProjects\\demo\\University Management System\\src\\DBImages\\";
             String fileName = folder_Path + "_Database_Images_" + (randomValue);
             try {
                 FileOutputStream fileOutputStream = new FileOutputStream(fileName);
                 fileOutputStream.write(imageData);
-            }catch(IOException ioe){
+                fileOutputStream.close();
+            } catch (IOException ioe) {
                 System.out.println(ioe);
             }
         });
 
-        Random random=new Random();
-        long randomValue=Math.abs((random.nextLong() % 9000 ) + 1000);
+        Random random = new Random();
+        long randomValue = Math.abs((random.nextLong() % 9000) + 1000);
         String folder_Path = "C:\\Users\\KIIT\\IdeaProjects\\demo\\University Management System\\src\\DBImages\\";
         String fileName = folder_Path + "_Database_Images_" + (randomValue);
         try {
-            imageData=imgData.getBytes(1,(int)imgData.length());
+            imageData = imgData.getBytes(1, (int) imgData.length());
             FileOutputStream fileOutputStream = new FileOutputStream(fileName);
             fileOutputStream.write(imageData);
-        }catch(IOException ioe){
+            fileOutputStream.close();
+        } catch (IOException ioe) {
             System.out.println(ioe);
-        }
-        catch (SQLException sqlException){
+        } catch (SQLException sqlException) {
             System.out.println(sqlException);
         }
-
 
 
         ImageIcon imageIcon = new ImageIcon(imageData);
@@ -87,7 +89,7 @@ JTextField addressField, phoneField, emailField;
         ImageIcon imageIcon1 = new ImageIcon(image);
         facultyImage = new JLabel(imageIcon1);
         facultyImage.setBounds(420, 90, 275, 325);
-        downloadImage.setBounds(450,440,200,25);
+        downloadImage.setBounds(450, 440, 200, 25);
 
         title = new JLabel("Update Faculty Information");
         title.setFont(new Font("Roboto", 10, 20));
@@ -164,26 +166,29 @@ JTextField addressField, phoneField, emailField;
         specField.setBounds(200, 455, 200, 25);
         deptField.setBounds(200, 495, 200, 25);
 
-        cancel.addActionListener(e -> {setVisible(false);});
-update.addActionListener(e -> {
+        cancel.addActionListener(e -> {
+            setVisible(false);
+        });
+        update.addActionListener(e -> {
 //    FileInputStream fileInputStream=new FileInputStream()
-    new_address=addressField.getText();
-            new_phone=phoneField.getText();
-                    new_email=emailField.getText();
-                    try{
-                        PreparedStatement preparedStatement=connection.prepareStatement(updateQuery);
-                        preparedStatement.setString(1,new_address);
-                        preparedStatement.setString(2,new_phone);
-                        preparedStatement.setString(3,new_email);
-                        preparedStatement.setInt(4,this.facultyId);
-                        int rowsAffected=preparedStatement.executeUpdate();
+            new_address = addressField.getText();
+            new_phone = phoneField.getText();
+            new_email = emailField.getText();
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+                preparedStatement.setString(1, new_address);
+                preparedStatement.setString(2, new_phone);
+                preparedStatement.setString(3, new_email);
+                preparedStatement.setInt(4, this.facultyId);
+                int rowsAffected = preparedStatement.executeUpdate();
+                preparedStatement.close();
 
-                    }catch (SQLException s){
-                        System.out.println(s);
-                    }
-                    JOptionPane.showMessageDialog(null,"Updated Successfully");
+            } catch (SQLException s) {
+                System.out.println(s);
+            }
+            JOptionPane.showMessageDialog(null, "Updated Successfully");
 
-});
+        });
 
 
         add(facultyImage);
@@ -221,7 +226,7 @@ update.addActionListener(e -> {
         setSize(750, 620);
         setLocation(250, 80);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 }

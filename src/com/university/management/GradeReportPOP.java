@@ -40,6 +40,8 @@ public class GradeReportPOP extends JFrame {
             while (resultSet.next()) {
                 arrayList.add(resultSet.getInt("roll"));
             }
+            resultSet.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +61,7 @@ public class GradeReportPOP extends JFrame {
         search.setBackground(new Color(135, 206, 250));
 
         search.addActionListener(e -> {
-            new GradeReport(Integer.parseInt((String)studentList.getSelectedItem()), (String)semesterList.getSelectedItem(), connection);
+            new GradeReport(Integer.parseInt((String) studentList.getSelectedItem()), (String) semesterList.getSelectedItem(), connection);
             setVisible(false);
         });
 
@@ -71,6 +73,6 @@ public class GradeReportPOP extends JFrame {
         setLocation(320, 270);
         setSize(750, 100);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

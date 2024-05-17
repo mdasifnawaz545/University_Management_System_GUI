@@ -86,6 +86,8 @@ public class Login extends JFrame {
                 warning.setText("");
                 validation = true;
             }
+            resultSet.close();
+            preparedStatement.close();
 
         } catch (SQLException sqle) {
             System.out.println(sqle);

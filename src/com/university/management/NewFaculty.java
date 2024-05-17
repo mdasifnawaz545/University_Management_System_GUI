@@ -22,16 +22,16 @@ class NewFaculty extends JFrame {
     Connection connection;
     DatabaseController databaseController;
     JLabel title, imageUpload, name, id, idField, fatherName, address, dob, phone, email, graduation, postGraduation, aadhaar, department, specialization;
-    JTextField nameField,imageUploadField, fatherNameField, addressField, phoneField, emailField, graduationField, postGraduationField, aadhaarField;
+    JTextField nameField, imageUploadField, fatherNameField, addressField, phoneField, emailField, graduationField, postGraduationField, aadhaarField;
     JComboBox departmentField, specializationField;
     JButton imageUploadButton;
     JDateChooser dobField;
     JButton submit, cancel;
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
     FacultyDBInstance facultyDBInstance = new FacultyDBInstance();
-    ArrayList<Integer> arrayList=new ArrayList<>(List.of(0));
+    ArrayList<Integer> arrayList = new ArrayList<>(List.of(0));
 
-    public void increment(){
+    public void increment() {
         arrayList.add((arrayList.get(arrayList.size() - 1)));
     }
 
@@ -40,8 +40,8 @@ class NewFaculty extends JFrame {
         String spec[] = {"AI/ML", "Data Science", "SAP ABAP", "Data Structures", "Electronics", "Computer Application"};
         increment();
         int rollIncrement = arrayList.get(arrayList.size() - 1);
-        Random random=new Random();
-        long randomValue=Math.abs((random.nextLong() % 9000L) + 10000L);
+        Random random = new Random();
+        long randomValue = Math.abs((random.nextLong() % 9000L) + 10000L);
         this.connection = connection;
         setTitle("Student");
         setLayout(null);
@@ -62,8 +62,8 @@ class NewFaculty extends JFrame {
         department = new JLabel("Department");
 
         nameField = new JTextField(15);
-        idField = new JLabel("19"+(randomValue));
-        imageUploadField=new JTextField(15);
+        idField = new JLabel("19" + (randomValue));
+        imageUploadField = new JTextField(15);
         addressField = new JTextField(15);
         fatherNameField = new JTextField(15);
         dobField = new JDateChooser();
@@ -139,7 +139,7 @@ class NewFaculty extends JFrame {
                         System.out.println(fileInputStream);
                         facultyDBInstance.imageData = new byte[fileInputStream.available()];
                         fileInputStream.read(facultyDBInstance.imageData);
-                        System.out.println(facultyDBInstance.imageData);
+                        fileInputStream.close();
 
                     } catch (FileNotFoundException ie) {
                         System.out.println(ie);
@@ -217,6 +217,6 @@ class NewFaculty extends JFrame {
         setSize(750, 650);
         setLocation(250, 55);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
