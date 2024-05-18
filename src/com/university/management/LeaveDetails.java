@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class LeaveDetails extends JFrame {
 
     Connection connection;
-    String Query = "SELECT * FROM student_leave WHERE roll=(?) LIMIT 1;";
+    String Query = "SELECT * FROM student_leave WHERE roll=?;";
 
     String details;
     JLabel title, rollNo;
@@ -63,12 +63,13 @@ public class LeaveDetails extends JFrame {
                 preparedStatement.setInt(1, rollNumber);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    details = ("Leave Details :  " + resultSet.getString("leave_type") + "  -  " + resultSet.getString("leave_date"));
+                    details = ("Leave Details :  " + resultSet.getString("leave_date"));
+                    details=details.concat("  -  " + resultSet.getString("leave_type"));
 //                    Leave_Details.setText("Leave Details : "+resultSet.getString("leave_date")+"                      -  "+resultSet.getString("leave_type"));
                 }
+                new LeaveDetailsPOP(details);
                 resultSet.close();
                 preparedStatement.close();
-                new LeaveDetailsPOP(details);
 //                add(Leave_Details);
             } catch (SQLException sqle) {
                 System.out.println(sqle);

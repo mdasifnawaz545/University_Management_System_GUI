@@ -19,7 +19,6 @@ public class LeaveDetailsPOP extends JFrame {
         setLayout(null);
         JLabel details_leave = new JLabel(this.detail);
         details_leave.setBounds(40, 25, 350, 15);
-        System.out.println(details_leave.getText());
         add(details_leave);
 
 
